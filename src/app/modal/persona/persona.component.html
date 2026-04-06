@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Agregar persona</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <!-- Contactos guardados -->
+    <ng-container *ngIf="contactosDisponibles.length > 0">
+        <div class="floating-input-wrapper">
+            <select class="floating-input" (change)="seleccionarContacto($event)">
+                <option value="">— Seleccioná un contacto —</option>
+                <option *ngFor="let c of contactosDisponibles" [value]="c.id">
+                    {{ c.nombre }}{{ c.cbu ? ' · ' + c.cbu : '' }}
+                </option>
+            </select>
+            <label class="floating-label active">Desde mis contactos</label>
+        </div>
+        <div class="separador">
+            <span>o ingresá manualmente</span>
+        </div>
+    </ng-container>
+
+    <!-- Formulario manual -->
+    <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!nombre || !nombre.trim())">
+        <input class="floating-input" [(ngModel)]="nombre" placeholder=" " type="text" />
+        <label class="floating-label">Nombre *</label>
+    </div>
+    <div class="floating-input-wrapper">
+        <input class="floating-input" [(ngModel)]="cbu" placeholder=" " type="text" />
+        <label class="floating-label">CBU / Alias (opcional)</label>
+    </div>
+    <div class="guardar-contacto-row" *ngIf="showSaveToContacts">
+        <label class="switch">
+            <input type="checkbox" [(ngModel)]="saveToContacts" />
+            <span class="slider"></span>
+        </label>
+        <span class="guardar-label">Guardar también en mis contactos</span>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div id="botonesNuevoPendiente">
+            <ion-button fill="outline" color="neon" (click)="cancel()" style="--border-width: 1px;">Cancelar</ion-button>
+            <ion-button color="neon" (click)="save()">Agregar</ion-button>
+        </div>
+    </ion-toolbar>
+</ion-footer>

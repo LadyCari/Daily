@@ -1,0 +1,64 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+    <div class="gastos-container">
+
+        <div class="grupos-header">
+            <div class="seccion-header">
+                <button class="btn-back" (click)="goBack()">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="header-acciones">
+                <button class="btn-contactos" (click)="openContactos()" title="Contactos">
+                    <i class="fa-solid fa-address-book"></i>
+                </button>
+                <button class="btn-nuevo-grupo" (click)="openNuevoGrupo()">
+                    <i class="fa-solid fa-plus"></i> Nuevo grupo de gastos
+                </button>
+            </div>
+        </div>
+
+        <!-- Empty state -->
+        <div class="grupos-empty" *ngIf="!grupos.length">
+            <i class="fa-solid fa-folder-open"></i>
+            <p>Creá tu primer grupo de gastos</p>
+            <p class="grupos-empty-hint">Ejemplo: amigos, vacaciones, regalos…</p>
+        </div>
+
+        <!-- Lista de grupos -->
+        <div cdkDropList class="grupos-lista" (cdkDropListDropped)="onReorder($event)" *ngIf="grupos.length">
+            <div cdkDrag class="grupo-card" *ngFor="let g of grupos" (click)="openGrupo(g)">
+
+                <div class="grupo-card-icon cat-{{ g.categoria }}">
+                    <i class="fa-solid" [ngClass]="categoriaIcons[g.categoria]"></i>
+                </div>
+
+                <div class="grupo-card-info">
+                    <span class="grupo-titulo">{{ g.titulo }}</span>
+                    <span class="grupo-meta">
+                        {{ g.personas.length }} personas · {{ g.gastos.length }} gastos
+                    </span>
+                </div>
+
+                <div class="grupo-card-right">
+                    <span class="grupo-total" *ngIf="totalGrupo(g) > 0">
+                        {{ totalGrupo(g) | currency:'$':'symbol':'1.0-0' }}
+                    </span>
+                    <div class="grupo-card-actions">
+                        <span class="drag-handle" cdkDragHandle (click)="$event.stopPropagation()">
+                            <i class="fa-solid fa-bars"></i>
+                        </span>
+                        <button class="btn-menu-grupo" (click)="menuGrupo($event, g)">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div *cdkDragPlaceholder class="grupo-placeholder"></div>
+
+            </div>
+        </div>
+
+    </div>
+</ion-content>

@@ -1,0 +1,140 @@
+ion-header {
+  --background: #111117;
+  background: #111117;
+  box-shadow: none;
+}
+
+ion-content {
+  --background: #111117;
+}
+
+.cp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.cp-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cp-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cp-preview {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.15s;
+}
+
+.cp-wrap {
+  padding: 1rem 1rem 0.5rem;
+}
+
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.cp-swatch {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.12s, border-color 0.12s;
+  position: relative;
+
+  &:active {
+    transform: scale(0.88);
+  }
+
+  &.selected {
+    border-color: #fff;
+    transform: scale(1.12);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+  }
+}
+
+.cp-hex-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+}
+
+.cp-hex-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.45;
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.cp-hex-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  font-family: monospace;
+  letter-spacing: 0.04em;
+
+  &.error {
+    color: #f87171;
+  }
+
+  &::placeholder {
+    opacity: 0.3;
+  }
+}
+
+.cp-hex-preview {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.btn-cancel,
+.btn-confirm {
+  padding: 0.35rem 0.75rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s;
+
+  &:active { opacity: 0.6; }
+}
+
+.btn-cancel {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-confirm {
+  background: rgba(43, 248, 255, 0.15);
+  border: 1px solid rgba(43, 248, 255, 0.35);
+  color: #2bf8ff;
+}

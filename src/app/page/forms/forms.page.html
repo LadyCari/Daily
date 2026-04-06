@@ -1,0 +1,69 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="forms-container">
+    <div class="forms-header">
+      <button class="btn-back" (click)="goBack()">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <div class="forms-acciones">
+        <button class="btn-accion" (click)="createForm()">
+          <i class="fa-solid fa-plus"></i>
+          Crear formulario
+        </button>
+        <button class="btn-accion btn-accion--sec" (click)="importarForm()">
+          <i class="fa-solid fa-file-import"></i> Importar
+        </button>
+      </div>
+    </div>
+
+    @if (forms.length === 0) {
+      <div class="forms-empty">
+        No tenés forms todavía.
+      </div>
+    } @else {
+      <div cdkDropList class="forms-lista" (cdkDropListDropped)="onReorder($event)">
+        @for (f of forms; track f.id) {
+          <div cdkDrag class="form-card" (click)="openForm(f.id)">
+            <div class="form-card-info">
+              <div class="form-title">{{ f.title }}</div>
+              <div class="form-sub">{{ f.fields.length }} campos · {{ f.items.length }} ítems</div>
+            </div>
+            <div class="form-card-right">
+              <button class="btn-icon" (click)="$event.stopPropagation(); exportarForm(f)">
+                <i class="fa-solid fa-share-from-square"></i>
+              </button>
+              <button class="btn-icon btn-icon--danger" (click)="$event.stopPropagation(); deleteForm(f)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+              <span class="drag-handle" cdkDragHandle (click)="$event.stopPropagation()">
+                <i class="fa-solid fa-bars"></i>
+              </span>
+            </div>
+            <div *cdkDragPlaceholder class="form-placeholder"></div>
+          </div>
+        }
+      </div>
+    }
+    <!-- Forms recibidos de otros -->
+    @for (grupo of formsRecibidos; track grupo.senderUid) {
+      <div class="forms-recibidos-label">
+        <i class="fa-solid fa-users"></i> De {{ grupo.senderName }}
+      </div>
+      @for (f of grupo.items; track f.id) {
+        <div class="form-card form-card--shared" (click)="abrirFormCompartido(f, grupo.senderName)">
+          <div class="form-card-info">
+            <div class="form-title">{{ f.title }}</div>
+            <div class="form-sub">
+              {{ f.fields?.length ?? 0 }} campos · {{ f.items?.length ?? 0 }} ítems
+            </div>
+          </div>
+          <div class="form-card-right">
+            <i class="fa-solid fa-chevron-right" style="opacity:0.3;font-size:0.8rem"></i>
+          </div>
+        </div>
+      }
+    }
+
+  </div>
+</ion-content>

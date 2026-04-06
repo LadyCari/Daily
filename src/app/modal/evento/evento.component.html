@@ -1,0 +1,75 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Nuevo evento</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <!-- Tipo de evento -->
+    <ion-item>
+        <ion-label position="stacked" class="select-label-grande">Tipo de evento</ion-label>
+        <ion-select [(ngModel)]="tipo" cssClass="neon-select-alert">
+            <ion-select-option *ngFor="let cat of categorias" [value]="cat">
+                {{ getLabel(cat) }}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+
+    <!-- Título -->
+    <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!titulo || !titulo.trim())">
+        <input class="floating-input" id="inputTituloEvento" type="text" [(ngModel)]="titulo" placeholder=" " />
+        <label class="floating-label" for="inputTituloEvento">Nombre del evento</label>
+    </div>
+
+    <!-- Fecha y Hora en fila -->
+    <div class="fecha-hora-row">
+        <div class="time-input-wrapper" [class.invalid-field]="submitAttempted && !fecha">
+            <label class="time-label">Fecha</label>
+            <input class="time-input" type="date" [(ngModel)]="fecha" />
+        </div>
+        <div class="time-input-wrapper" [class.invalid-field]="submitAttempted && !hora">
+            <label class="time-label">Hora</label>
+            <input class="time-input" type="time" [(ngModel)]="hora" />
+        </div>
+    </div>
+
+    <!-- Repetición -->
+    <ion-item>
+        <ion-label position="stacked" class="select-label-grande">Repetir</ion-label>
+        <ion-select [(ngModel)]="repeat" cssClass="neon-select-alert">
+            <ion-select-option [value]="'none'">No repetir</ion-select-option>
+            <ion-select-option [value]="'daily'">Diario</ion-select-option>
+            <ion-select-option [value]="'weekly'">Semanal</ion-select-option>
+            <ion-select-option [value]="'monthly'">Mensual</ion-select-option>
+            <ion-select-option [value]="'yearly'">Anual</ion-select-option>
+        </ion-select>
+    </ion-item>
+
+    <div class="floating-input-wrapper" *ngIf="repeat !== 'none'">
+        <input class="floating-input" id="inputRepeatDuration" type="number" [(ngModel)]="repeatDuration" placeholder=" " min="1" />
+        <label class="floating-label" for="inputRepeatDuration">Cantidad de veces a repetir (opcional)</label>
+    </div>
+
+    <!-- Descripción -->
+    <div class="floating-input-wrapper">
+        <textarea class="floating-input textarea-input" id="inputDescEvento" [(ngModel)]="descripcion" placeholder=" "
+            rows="3"></textarea>
+        <label class="floating-label" for="inputDescEvento">Descripción (opcional)</label>
+    </div>
+
+    <div class="privacy-toggle" (click)="isPrivate = !isPrivate">
+        <i class="fa-solid" [class.fa-lock]="isPrivate" [class.fa-lock-open]="!isPrivate" [class.privacy-on]="isPrivate"></i>
+        <span [class.privacy-on]="isPrivate">{{ isPrivate ? 'Privado (solo vos lo ves)' : 'Compartido con tu pareja' }}</span>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div id="botonesNuevoPendiente">
+            <ion-button fill="outline" color="neon" (click)="cancel()" style="--border-width: 1px;">Cancelar</ion-button>
+            <ion-button color="neon" (click)="save()">Guardar</ion-button>
+        </div>
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,76 @@
+<ion-content [fullscreen]="true">
+  <div class="grupos-container">
+
+    <!-- Sin sesión -->
+    @if (!authSvc.user()) {
+      <div class="empty-state">
+        <i class="fa-solid fa-users-slash"></i>
+        <p>Iniciá sesión con Google para usar grupos</p>
+      </div>
+    }
+
+    @if (authSvc.user()) {
+
+      <!-- Invitaciones pendientes -->
+      @if (invitaciones.length > 0) {
+        <div class="section-label">Invitaciones pendientes</div>
+        @for (inv of invitaciones; track inv.id) {
+          <div class="invite-card">
+            <div class="invite-info">
+              <i class="fa-solid fa-envelope-open-text"></i>
+              <div>
+                <strong>{{ inv.groupName }}</strong>
+                <small>Invitado por {{ inv.fromName }}</small>
+              </div>
+            </div>
+            <div class="invite-actions">
+              <button class="btn-accept" (click)="aceptarInvitacion(inv)">
+                <i class="fa-solid fa-check"></i>
+              </button>
+              <button class="btn-reject" (click)="rechazarInvitacion(inv)">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        }
+      }
+
+      <!-- Lista de grupos -->
+      <div class="section-label">Mis grupos</div>
+
+      @if (loading) {
+        <div class="loading-state">
+          <ion-spinner name="crescent"></ion-spinner>
+        </div>
+      }
+
+      @if (!loading && grupos.length === 0) {
+        <div class="empty-state">
+          <i class="fa-solid fa-users"></i>
+          <p>No tenés grupos todavía.</p>
+          <small>Creá uno para sincronizar datos con alguien.</small>
+        </div>
+      }
+
+      @for (grupo of grupos; track grupo.id) {
+        <div class="grupo-card" (click)="goToGroup(grupo.id)">
+          <div class="grupo-icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="grupo-info">
+            <strong>{{ grupo.name }}</strong>
+          </div>
+          <i class="fa-solid fa-chevron-right grupo-arrow"></i>
+        </div>
+      }
+
+      <!-- Botón nuevo grupo -->
+      <button class="btn-nuevo" (click)="crearGrupo()">
+        <i class="fa-solid fa-plus"></i>
+        Nuevo grupo
+      </button>
+
+    }
+
+  </div>
+</ion-content>

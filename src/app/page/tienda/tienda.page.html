@@ -1,0 +1,81 @@
+<div class="tiendas-container">
+
+  <!-- Header: acciones -->
+  <div class="tiendas-header">
+    <div class="tiendas-acciones">
+      <button class="btn-accion" (click)="openAddTiendaModal()">
+        <i class="fa-solid fa-plus"></i> Nueva tienda
+      </button>
+      <button class="btn-accion btn-accion--sec" (click)="importarTienda()">
+        <i class="fa-solid fa-file-import"></i> Importar
+      </button>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="tiendas-empty" *ngIf="!tiendas.length">
+    <i class="fa-solid fa-store"></i>
+    <p>Agregá tu primera tienda</p>
+    <p class="tiendas-empty-hint">Organizá tus listas de compras por tienda</p>
+  </div>
+
+  <!-- Lista de tiendas -->
+  <div cdkDropList class="tiendas-lista" (cdkDropListDropped)="onReorder($event)" *ngIf="tiendas.length">
+
+    <div *ngFor="let tienda of tiendas" cdkDrag class="tienda-card" (click)="openTienda(tienda.id)"
+      [style.--tienda-accent]="tienda.accentColor || 'var(--compras-accent, #2bf8ff)'"
+      [style.--tienda-card-icon-color]="tienda.iconColor"
+      [style.--tienda-card-text-color]="tienda.textColor">
+
+      <!-- Ícono de categoría -->
+      <div class="tienda-card-icon cat-{{ tienda.categoria }}">
+        <i [class]="'fa-solid ' + getIcon(tienda.categoria)"></i>
+      </div>
+
+      <!-- Info -->
+      <div class="tienda-card-info">
+        <span class="tienda-nombre">{{ tienda.name }}</span>
+        <span class="tienda-meta">{{ conteoProductos[tienda.id] }} productos</span>
+      </div>
+
+      <!-- Acciones derecha -->
+      <div class="tienda-card-right">
+        <span class="tienda-drag-handle" cdkDragHandle (click)="$event.stopPropagation()">
+          <i class="fa-solid fa-bars"></i>
+        </span>
+        <button class="btn-menu-tienda" (click)="openTiendaMenu($event, tienda)">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+      </div>
+
+      <!-- Placeholder drag -->
+      <div *cdkDragPlaceholder class="tienda-placeholder"></div>
+
+    </div>
+
+  </div>
+
+  <!-- Tiendas recibidas de otros (bulk sync, vista previa) -->
+  @for (grupo of tiendasRecibidas; track grupo.senderUid) {
+    <div class="tiendas-recibidas-label">
+      <i class="fa-solid fa-users"></i> De {{ grupo.senderName }}
+    </div>
+    @for (tienda of grupo.items; track tienda.id) {
+      <div class="tienda-card tienda-card--shared"
+        [style.--tienda-accent]="tienda.accentColor || 'var(--compras-accent, #2bf8ff)'"
+        [style.--tienda-card-icon-color]="tienda.iconColor"
+        [style.--tienda-card-text-color]="tienda.textColor">
+        <div class="tienda-card-icon cat-{{ tienda.categoria }}">
+          <i [class]="'fa-solid ' + getIcon(tienda.categoria)"></i>
+        </div>
+        <div class="tienda-card-info">
+          <span class="tienda-nombre">{{ tienda.name }}</span>
+          <span class="tienda-meta tienda-meta--shared">
+            <i class="fa-solid fa-users"></i> {{ grupo.senderName }}
+          </span>
+        </div>
+      </div>
+    }
+  }
+
+</div>

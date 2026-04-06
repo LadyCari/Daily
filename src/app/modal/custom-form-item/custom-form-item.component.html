@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      {{ mode === 'create' ? 'Nuevo ítem' : 'Editar ítem' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngFor="let f of fields">
+
+    <div class="required-row" *ngIf="isCheckbox(f)">
+      <span class="required-label">{{ f.label }} <span *ngIf="f.required">*</span></span>
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="values[f.id]" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="floating-input-wrapper" *ngIf="isSelect(f)"
+         [class.invalid-field]="submitAttempted && f.required && (values[f.id] === undefined || values[f.id] === null || values[f.id] === '')">
+      <select class="floating-input" [(ngModel)]="values[f.id]">
+        <option *ngFor="let opt of (f.options ?? [])" [ngValue]="opt">{{ opt }}</option>
+      </select>
+      <label class="floating-label">{{ f.label }} <span *ngIf="f.required">*</span></label>
+    </div>
+
+    <div class="floating-input-wrapper" *ngIf="!isCheckbox(f) && !isSelect(f)"
+         [class.invalid-field]="submitAttempted && f.required && (values[f.id] === undefined || values[f.id] === null || values[f.id] === '')">
+      <input class="floating-input" [type]="getInputType(f)" [(ngModel)]="values[f.id]" placeholder=" " />
+      <label class="floating-label">{{ f.label }} <span *ngIf="f.required">*</span></label>
+    </div>
+
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="botonesNuevoPendiente">
+      <ion-button fill="outline" color="neon" (click)="cancel()" style="--border-width: 1px;">Cancelar</ion-button>
+      <ion-button color="neon" (click)="save()">Guardar</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

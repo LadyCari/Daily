@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Nuevo grupo</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <!-- Título con floating label -->
+    <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!titulo || !titulo.trim())">
+        <input class="floating-input" id="inputTituloGrupo" type="text" [(ngModel)]="titulo" placeholder=" " />
+        <label class="floating-label" for="inputTituloGrupo">Título del grupo</label>
+    </div>
+
+    <!-- Selector de categoría -->
+    <div class="campo-label">Tipo de gasto</div>
+    <div class="categoria-chips">
+        <div *ngFor="let cat of categorias" class="cat-chip cat-{{ cat.value }}"
+            [class.activo]="categoria === cat.value" (click)="categoria = cat.value">
+            <i class="fa-solid {{ cat.icon }}"></i>
+            {{ cat.label }}
+        </div>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="botones-grupo">
+            <ion-button fill="outline" color="neon" (click)="cancel()" style="--border-width: 1px;">Cancelar</ion-button>
+            <ion-button color="neon" (click)="save()">Crear</ion-button>
+        </div>
+    </ion-toolbar>
+</ion-footer>

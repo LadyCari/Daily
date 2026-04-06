@@ -1,0 +1,31 @@
+/* ── Fondo configurable desde settings ── */
+ion-content {
+    --background: var(--app-color-bg-compras, #07070a);
+}
+
+/* ── Segmento sticky ── */
+.segment-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--app-color-header, #04040b);
+    padding: 6px 0 8px;
+}
+
+ion-segment {
+    --background: var(--tienda-segmento-fondo, #1a1a2e);
+    border-radius: 10px;
+    width: 100%;
+}
+
+ion-segment-button {
+    --color:         var(--tienda-segmento-texto, rgba(255,255,255,0.55));
+    --color-checked: var(--tienda-segmento-activo, #2bf8ff);
+    --indicator-color: var(--tienda-segmento-activo, #2bf8ff);
+    --border-radius: 8px;
+    min-height: 36px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}

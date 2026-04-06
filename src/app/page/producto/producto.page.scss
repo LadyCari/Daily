@@ -1,0 +1,220 @@
+/* ─── Header ─── */
+ion-content {
+    --background: var(--app-color-bg-compras, #07070a);
+}
+
+:host {
+    --compras-accent-fallback: var(--compras-accent, #2bf8ff);
+    --compras-icon-fallback: var(--compras-icon-color, #2bf8ff);
+}
+
+.tituloProductos {
+    padding: 1rem 1rem 0.5rem;
+
+    h2 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+}
+
+/* ─── Orden row ─── */
+.orden-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0 0.75rem 0.5rem;
+}
+
+.orden-item {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    color: inherit;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.78rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+/* Cualquier filtro activo — celeste neon */
+.orden-item.activo {
+    background: color-mix(in srgb, var(--compras-accent-fallback) 12%, transparent);
+    border-color: var(--compras-accent-fallback);
+    color: var(--compras-accent-fallback);
+}
+
+/* ─── Search Bar ─── */
+.search-container {
+    display: flex;
+    align-items: center;
+    background: color-mix(in srgb, var(--ion-color-step-50, #222) 80%, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin: 0 1rem 1rem;
+    padding: 0 1rem;
+    height: 48px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus-within {
+        border-color: var(--compras-accent-fallback);
+        box-shadow: 0 0 12px color-mix(in srgb, var(--compras-accent-fallback) 20%, transparent);
+    }
+
+    input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: var(--ion-text-color);
+        font-size: 0.95rem;
+        outline: none;
+        width: 100%;
+        height: 100%;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+    }
+
+    i {
+        color: var(--compras-accent-fallback);
+        font-size: 1.1rem;
+        opacity: 0.8;
+        margin-left: 0.5rem;
+    }
+}
+
+/* ─── Empty state ─── */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    opacity: 0.45;
+    gap: 1rem;
+
+    i {
+        font-size: 3rem;
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+}
+
+/* ─── Product list ─── */
+ion-item.producto-comprar {
+    --background: color-mix(in srgb, var(--compras-accent-fallback) 6%, transparent);
+}
+
+ion-item.producto-no-comprar {
+    --background: transparent;
+}
+
+/* Checkbox circular */
+.producto-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 0.5rem;
+    cursor: pointer;
+}
+
+.check-circulo {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+    flex-shrink: 0;
+}
+
+.check-circulo.check-activo {
+    border-color: var(--compras-accent-fallback);
+    background: color-mix(in srgb, var(--compras-accent-fallback) 20%, transparent);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--compras-accent-fallback) 40%, transparent);
+}
+
+.check-circulo i {
+    font-size: 0.7rem;
+    color: var(--compras-accent-fallback);
+}
+
+/* Contenido del producto */
+.producto-contenido {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.15rem;
+    padding: 0.5rem 0;
+}
+
+.detalle-producto {
+    font-size: 0.78rem;
+    opacity: 0.6;
+}
+
+/* Badge de tienda */
+.tienda-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.72rem;
+    color: var(--compras-icon-fallback);
+    opacity: 0.85;
+    margin-top: 0.1rem;
+
+    i {
+        font-size: 0.65rem;
+    }
+}
+
+/* Botón 3 puntos */
+.producto-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.75rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+
+    &:active {
+        opacity: 1;
+    }
+}
+
+.nombreProdcuto i {
+    margin-right: 0.5rem;
+}
+
+.precio-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.precio-main {
+    font-size: 1rem;
+    color: var(--ion-text-color);
+}
+
+.precio-sub {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    color: var(--ion-text-color);
+    margin-top: 0.15rem;
+}

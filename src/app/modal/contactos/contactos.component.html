@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Contactos</ion-title>
+        <ion-buttons slot="start">
+            <button class="btn-nuevo-contacto-header" (click)="toggleForm()">
+                <i class="fa-solid" [class.fa-plus]="!mostrarForm" [class.fa-xmark]="mostrarForm"></i>
+                {{ mostrarForm ? 'Cancelar' : 'Nuevo contacto' }}
+            </button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="cerrar()">
+                <i class="fa-solid fa-xmark"></i>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <!-- Lista vacía -->
+    <div class="contactos-empty" *ngIf="contactos.length === 0 && !mostrarForm">
+        <i class="fa-solid fa-address-book"></i>
+        <p>No tenés contactos guardados</p>
+        <p class="hint">Guardá personas con su CBU o alias para usarlas rápido</p>
+    </div>
+
+    <!-- Lista de contactos -->
+    <div class="contactos-lista" *ngIf="contactos.length > 0">
+        <div class="contacto-card" *ngFor="let c of contactos">
+            <div class="contacto-avatar">{{ c.nombre[0].toUpperCase() }}</div>
+            <div class="contacto-info">
+                <span class="contacto-nombre">{{ c.nombre }}</span>
+                <span class="contacto-cbu" *ngIf="c.cbu">{{ c.cbu }}</span>
+                <span class="contacto-cbu sin-cbu" *ngIf="!c.cbu">Sin CBU / alias</span>
+            </div>
+            <button class="btn-eliminar" (click)="eliminar(c)">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Formulario nuevo contacto -->
+    <div class="form-nuevo" *ngIf="mostrarForm">
+        <div class="form-titulo">Nuevo contacto</div>
+        <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!nombre || !nombre.trim())">
+            <input class="floating-input" [(ngModel)]="nombre" placeholder=" " type="text" />
+            <label class="floating-label">Nombre *</label>
+        </div>
+        <div class="floating-input-wrapper">
+            <input class="floating-input" [(ngModel)]="cbu" placeholder=" " type="text" />
+            <label class="floating-label">CBU / Alias (opcional)</label>
+        </div>
+        <div class="form-acciones">
+            <button class="btn-cancelar" (click)="toggleForm()">Cancelar</button>
+            <button class="btn-guardar" (click)="guardar()">Guardar</button>
+        </div>
+    </div>
+
+</ion-content>
+

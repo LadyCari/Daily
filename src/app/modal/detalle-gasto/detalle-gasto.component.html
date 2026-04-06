@@ -1,0 +1,139 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{ modoEdicion ? 'Editar gasto' : 'Detalle del gasto' }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="cerrar()">
+                <i class="fa-solid fa-xmark"></i>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="gasto">
+
+    <!-- ═══ MODO LECTURA ═══ -->
+    <ng-container *ngIf="!modoEdicion">
+
+        <!-- Cabecera del gasto -->
+        <div class="gasto-header">
+            <div class="gasto-icono">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+            <div class="gasto-header-info">
+                <h2>{{ gasto.descripcion }}</h2>
+                <span class="gasto-fecha">{{ gasto.fecha | date:'dd-MM-yyyy':'UTC' }}</span>
+            </div>
+        </div>
+
+        <!-- Monto total -->
+        <div class="monto-total">
+            <span class="monto-label">Total</span>
+            <span class="monto-valor">{{ gasto.monto | currency:'$':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <!-- Quién pagó -->
+        <div class="detalle-row">
+            <span class="detalle-key"><i class="fa-solid fa-hand-holding-dollar"></i> Pagó</span>
+            <span class="detalle-val">{{ pagadorNombre }}</span>
+        </div>
+
+        <!-- Tipo de división -->
+        <div class="detalle-row">
+            <span class="detalle-key"><i class="fa-solid fa-sliders"></i> División</span>
+            <span class="detalle-val">{{ esDesigual ? 'Desigual' : 'Igual' }}</span>
+        </div>
+
+        <!-- Participantes (pre-calculado, sin getter) -->
+        <div class="seccion-titulo">Participantes</div>
+        <div class="participante-row" *ngFor="let p of participantesVista">
+            <div class="p-avatar">{{ p.nombre[0].toUpperCase() }}</div>
+            <span class="p-nombre">{{ p.nombre }}</span>
+            <span class="p-monto">{{ p.monto | currency:'$':'symbol':'1.0-0' }}</span>
+        </div>
+
+        <!-- Botones -->
+        <div class="acciones-detalle">
+            <button class="btn-accion btn-editar" (click)="activarEdicion()">
+                <i class="fa-solid fa-pencil"></i> Editar
+            </button>
+            <button class="btn-accion btn-eliminar" (click)="eliminar()">
+                <i class="fa-solid fa-trash"></i> Eliminar
+            </button>
+        </div>
+
+    </ng-container>
+
+    <!-- ═══ MODO EDICIÓN ═══ -->
+    <ng-container *ngIf="modoEdicion">
+
+        <ion-item>
+            <ion-label position="stacked">Descripción</ion-label>
+            <ion-input [(ngModel)]="editDesc" placeholder="Ej: Cena del viernes"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked">Monto total ($)</ion-label>
+            <ion-input type="number" [(ngModel)]="editMonto" placeholder="10000"></ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="stacked" class="select-label-grande">¿Quién pagó?</ion-label>
+            <ion-select [(ngModel)]="editPagadorId" cssClass="neon-select-alert">
+                <ion-select-option *ngFor="let p of personas" [value]="p.id">{{ p.nombre }}</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <!-- Participantes -->
+        <div class="campo-label">¿Quiénes comparten?</div>
+        <div class="participantes-lista">
+            <div *ngFor="let p of personas" class="participante-chip" [class.activo]="isEditParticipante(p.id)"
+                (click)="toggleEditParticipante(p.id)">
+                <i class="fa-solid" [class]="isEditParticipante(p.id) ? 'fa-circle-check' : 'fa-circle'"></i>
+                {{ p.nombre }}
+            </div>
+        </div>
+
+        <!-- División -->
+        <div class="division-toggle">
+            <span class="division-label">División</span>
+            <div class="toggle-chips">
+                <div class="toggle-chip" [class.activo]="editDivisionIgual" (click)="editDivisionIgual = true">
+                    <i class="fa-solid fa-equals"></i> Igual
+                </div>
+                <div class="toggle-chip" [class.activo]="!editDivisionIgual" (click)="editDivisionIgual = false">
+                    <i class="fa-solid fa-sliders"></i> Desigual
+                </div>
+            </div>
+        </div>
+
+        <!-- Montos individuales -->
+        <div *ngIf="!editDivisionIgual" class="montos-individuales">
+            <div class="campo-label">Monto por persona</div>
+            <ion-item *ngFor="let p of editParticipantesLista">
+                <ion-label position="stacked">{{ p.nombre }}</ion-label>
+                <ion-input type="number" [(ngModel)]="editMontosMap[p.id]" placeholder="0"></ion-input>
+            </ion-item>
+            <div class="restante-row" [class.ok]="editRestanteValido" [class.error]="!editRestanteValido">
+                <span *ngIf="editRestanteValido"><i class="fa-solid fa-circle-check"></i> Los montos cierran</span>
+                <span *ngIf="!editRestanteValido">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Restante: {{ editRestante | currency:'$':'symbol':'1.0-0' }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Botones edición -->
+        <div class="acciones-detalle" style="margin-top: 1.5rem;">
+            <button class="btn-accion btn-editar" (click)="cancelarEdicion()">
+                <i class="fa-solid fa-xmark"></i> Cancelar
+            </button>
+            <button class="btn-accion btn-eliminar"
+                style="background: rgba(43,248,255,0.12); color:#2bf8ff; border-color: rgba(43,248,255,0.3);"
+                (click)="guardarEdicion()" [disabled]="!editDivisionIgual && !editRestanteValido">
+                <i class="fa-solid fa-check"></i> Guardar
+            </button>
+        </div>
+
+    </ng-container>
+
+</ion-content>

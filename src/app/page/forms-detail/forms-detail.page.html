@@ -1,0 +1,128 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="detail-container" *ngIf="form as f">
+    <div class="detail-top">
+      <div class="detail-left">
+        <button class="btn-back" (click)="goBack()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="detail-title">{{ f.title }}</div>
+      </div>
+      <div class="detail-actions">
+        <ion-button fill="clear" (click)="renameForm()">
+          <i class="fa-solid fa-pen"></i>
+        </ion-button>
+        <ion-button fill="clear" (click)="configureFields()">
+          <i class="fa-solid fa-sliders"></i>
+        </ion-button>
+        @if (!isLinked && authSvc.user()) {
+          <ion-button fill="clear" (click)="vincularConGrupo()" title="Vincular con grupo">
+            <i class="fa-solid fa-link icono-vincular"></i>
+          </ion-button>
+        }
+        @if (isLinked) {
+          <ion-button fill="clear" (click)="syncLinked()" title="Sincronizar">
+            <i class="fa-solid fa-rotate icono-sync"></i>
+          </ion-button>
+          <ion-button fill="clear" (click)="desvincularForm()" title="Desvincular">
+            <i class="fa-solid fa-link-slash icono-desvincular"></i>
+          </ion-button>
+        }
+      </div>
+    </div>
+
+    @if (isLinked) {
+      <div class="linked-badge">
+        <i class="fa-solid fa-link"></i> Formulario vinculado · toca <i class="fa-solid fa-rotate"></i> para sincronizar
+      </div>
+    }
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Ítems</div>
+        <button class="btn-accion" (click)="addItem()">
+          <i class="fa-solid fa-plus"></i>
+          Agregar
+        </button>
+      </div>
+
+      <div *ngIf="f.fields.length > 0" class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input class="search-input" type="text" placeholder="Buscar..." [(ngModel)]="busqueda" />
+        <button *ngIf="busqueda" class="search-clear" (click)="busqueda=''">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div *ngIf="sortableFields.length > 0" class="sort-chips">
+        <button *ngFor="let sf of sortableFields"
+                class="sort-chip"
+                [class.sort-chip--active]="sortFieldId === sf.id"
+                (click)="setSort(sf.id)">
+          {{ sf.label }}
+          <span class="sort-arrow" *ngIf="sortFieldId === sf.id">
+            {{ sortAsc ? '▲' : '▼' }}
+          </span>
+        </button>
+      </div>
+
+      <div *ngIf="f.items.length === 0" class="section-empty">Todavía no hay ítems.</div>
+
+      <div *ngIf="f.fields.length === 0" class="section-empty">
+        Configurá campos para poder agregar ítems.
+      </div>
+
+      <div *ngIf="f.items.length > 0 && itemsVisible.length === 0" class="section-empty">
+        No hay ítems que coincidan con la búsqueda.
+      </div>
+
+      <ion-list *ngIf="itemsVisible.length > 0" lines="none">
+        <ion-item *ngFor="let item of itemsVisible; trackBy: trackByItemId"
+                  button
+                  [class.item-done]="isItemDone(item)"
+                  (click)="editItem(item)">
+
+          <!-- Checkbox(es) a la izquierda — uno por campo tipo checkbox -->
+          <div slot="start" class="item-checks" *ngIf="checkboxFields.length > 0">
+            <div *ngFor="let cf of checkboxFields"
+                 class="check-circulo"
+                 [class.check-activo]="item.values[cf.id]"
+                 (click)="toggleCheckbox(item, cf.id, $event)"
+                 [title]="cf.label">
+              <i class="fa-solid fa-check" *ngIf="item.values[cf.id]"></i>
+            </div>
+          </div>
+
+          <!-- Contenido del item -->
+          <ion-label style="cursor:pointer">
+            <div class="item-fields" [class.item-title--done]="isItemDone(item)">
+              <ng-container *ngIf="(itemLinesMap.get(item.id) ?? []).length > 0; else sinDatos">
+                <div *ngFor="let line of itemLinesMap.get(item.id)" class="item-field-row">
+                  <span class="item-field-label">{{ line.label }}:</span>
+                  <ng-container *ngIf="!line.isLink">
+                    <span class="item-field-value">{{ line.value }}</span>
+                  </ng-container>
+                  <a *ngIf="line.isLink" class="item-link" (click)="openUrl(line.value, $event)">
+                    <i class="fa-solid fa-link"></i> {{ line.value }}
+                  </a>
+                </div>
+              </ng-container>
+              <ng-template #sinDatos>
+                <span class="item-field-empty">Ítem sin datos</span>
+              </ng-template>
+            </div>
+            <div class="updated-by" *ngIf="item.updatedByName">
+              <i class="fa-solid fa-user-pen"></i> {{ item.updatedByName }}
+            </div>
+          </ion-label>
+
+          <ion-button slot="end" fill="clear" color="danger"
+                      (click)="$event.stopPropagation(); deleteItem(item)">
+            <i class="fa-solid fa-trash"></i>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+</ion-content>

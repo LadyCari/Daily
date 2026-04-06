@@ -1,0 +1,26 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom" id="navBar">
+
+    <ion-tab-button tab="extra" href="/extra"
+                   [class.tab-active]="activeTab() === 'extra'"
+                   (click)="setTab('extra')">
+      <i class="fa-solid fa-list tab-icon"></i>
+      <span class="tab-label">Extra</span>
+    </ion-tab-button>
+
+    <ion-tab-button tab="home" href="/home"
+                   [class.tab-active]="activeTab() === 'home'"
+                   (click)="setTab('home')">
+      <i class="fa-solid fa-house tab-icon"></i>
+      <span class="tab-label">Inicio</span>
+    </ion-tab-button>
+
+    <ion-tab-button tab="compra" href="/compra/tiendas"
+                   [class.tab-active]="activeTab() === 'compra'"
+                   (click)="setTab('compra')">
+      <i class="fa-solid fa-store tab-icon"></i>
+      <span class="tab-label">Tienda</span>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>

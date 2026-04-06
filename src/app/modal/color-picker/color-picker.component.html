@@ -1,0 +1,42 @@
+<ion-header>
+  <div class="cp-header">
+    <button class="btn-cancel" (click)="cancel()">Cancelar</button>
+    <div class="cp-title-row">
+      <span class="cp-label">{{ label }}</span>
+      <div class="cp-preview" [style.background]="current"></div>
+    </div>
+    <button class="btn-confirm" (click)="confirm()">Listo</button>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="cp-wrap">
+
+    <div class="cp-grid">
+      @for (c of palette; track c) {
+        <button
+          class="cp-swatch"
+          [class.selected]="current === c"
+          [style.background]="c"
+          (click)="select(c)"
+        ></button>
+      }
+    </div>
+
+    <div class="cp-hex-row">
+      <span class="cp-hex-label">HEX</span>
+      <input
+        class="cp-hex-input"
+        [class.error]="hexError"
+        [ngModel]="hexInput"
+        (ngModelChange)="onHexChange($event)"
+        maxlength="7"
+        placeholder="#2bf8ff"
+        spellcheck="false"
+        autocomplete="off"
+      />
+      <div class="cp-hex-preview" [style.background]="hexError ? 'transparent' : current"></div>
+    </div>
+
+  </div>
+</ion-content>

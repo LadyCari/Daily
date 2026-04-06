@@ -1,0 +1,108 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+    <div class="grupo-detalle-container">
+
+        <!-- ── Header del grupo ── -->
+        <div class="grupo-titulo-bar">
+            <button class="btn-back" (click)="goBack()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="grupo-titulo-info">
+                <span class="grupo-titulo-texto">{{ grupo.titulo }}</span>
+                <span class="grupo-categoria-badge cat-{{ grupo.categoria }}">
+                    <i class="fa-solid" [ngClass]="{
+                        'fa-layer-group':  grupo.categoria === 'general',
+                        'fa-gift':         grupo.categoria === 'regalo',
+                        'fa-file-invoice': grupo.categoria === 'cuentas',
+                        'fa-ellipsis':     grupo.categoria === 'otros'
+                    }"></i>
+                    {{ grupo.categoria }}
+                </span>
+            </div>
+            <!-- Botón compartir (visible si hay al menos 1 persona) -->
+            <button class="btn-compartir" (click)="compartirGrupo()" *ngIf="personas.length"
+                title="Compartir resumen por WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </button>
+        </div>
+
+
+        <!-- ── Personas ── -->
+        <ion-card>
+            <div class="card-header">
+                <span><i class="fa-solid fa-users"></i> Personas</span>
+                <i class="fa-solid fa-user-plus accion-icon" (click)="openAddPersona()"></i>
+            </div>
+            <div class="personas-chips" *ngIf="personas.length">
+                <div *ngFor="let p of personas" class="persona-chip" [class.acreedor]="getBalancePersona(p.id) > 0.01"
+                    [class.deudor]="getBalancePersona(p.id) < -0.01" (click)="menuPersona(p)">
+                    <div class="persona-avatar">{{ p.nombre[0].toUpperCase() }}</div>
+                    <span class="persona-nombre">{{ p.nombre }}</span>
+                    <span class="persona-balance" [class.positivo]="getBalancePersona(p.id) > 0.01"
+                        [class.negativo]="getBalancePersona(p.id) < -0.01">
+                        {{ getBalancePersona(p.id) | currency:'$':'symbol':'1.2-2' }}
+                    </span>
+                </div>
+            </div>
+            <div class="empty-state" *ngIf="!personas.length">
+                <i class="fa-solid fa-user-plus"></i>
+                <p>Agregá personas para empezar</p>
+            </div>
+
+        </ion-card>
+
+        <!-- ── Resumen de deudas ── -->
+        <ion-card *ngIf="deudas.length">
+            <div class="card-header">
+                <span><i class="fa-solid fa-arrow-right-arrow-left"></i> Quién le debe a quién</span>
+            </div>
+            <div class="deudas-lista">
+                <div class="deuda-row" *ngFor="let d of deudas">
+                    <div class="deuda-deudor">
+                        <div class="persona-avatar sm">{{ d.deudorNombre[0].toUpperCase() }}</div>
+                        {{ d.deudorNombre }}
+                    </div>
+                    <div class="deuda-flecha">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span class="deuda-monto">{{ d.monto | currency:'$':'symbol':'1.2-2' }}</span>
+                    </div>
+                    <div class="deuda-acreedor">
+                        <div class="persona-avatar sm acreedor-av">{{ d.acreedorNombre[0].toUpperCase() }}</div>
+                        {{ d.acreedorNombre }}
+                    </div>
+                </div>
+            </div>
+        </ion-card>
+
+        <!-- ── Lista de gastos ── -->
+        <ion-card>
+            <div class="card-header">
+                <span>
+                    <i class="fa-solid fa-receipt"></i> Gastos
+                    <span class="total-badge" *ngIf="gastos.length">
+                        {{ totalGastos() | currency:'$':'symbol':'1.2-2' }}
+                    </span>
+                </span>
+                <i class="fa-solid fa-plus accion-icon" (click)="openAddGasto()"></i>
+            </div>
+            <div class="empty-state" *ngIf="!gastos.length">
+                <i class="fa-solid fa-receipt"></i>
+                <p>Sin gastos registrados</p>
+            </div>
+            <div class="gastos-lista" *ngIf="gastos.length">
+                <div class="gasto-row" *ngFor="let g of gastos" (click)="openDetalleGasto(g)">
+                    <div class="gasto-info">
+                        <span class="gasto-desc">{{ g.descripcion }}</span>
+                        <span class="gasto-detalle">
+                            Pagó {{ getNombre(g.pagadoPorId) }} · {{ g.participantesIds.length }} personas
+                        </span>
+                    </div>
+                    <div class="gasto-monto">{{ g.monto | currency:'$':'symbol':'1.2-2' }}</div>
+                    <i class="fa-solid fa-chevron-right gasto-menu"></i>
+                </div>
+            </div>
+        </ion-card>
+
+    </div>
+</ion-content>

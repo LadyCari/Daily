@@ -1,0 +1,18 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="segment-sticky">
+    <ion-segment [ngModel]="selectedSegment">
+      <ion-segment-button value="tiendas" (click)="onSegmentClick('tiendas')">
+        <ion-label>TIENDAS</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="productos" (click)="onSegmentClick('productos')">
+        <ion-label>PRODUCTOS</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <router-outlet></router-outlet>
+
+</ion-content>

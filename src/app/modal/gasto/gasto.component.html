@@ -1,0 +1,79 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Nuevo gasto</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!descripcion || !descripcion.trim())">
+        <input class="floating-input" [(ngModel)]="descripcion" placeholder=" " type="text" />
+        <label class="floating-label">Descripción</label>
+    </div>
+
+    <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!monto || monto <= 0)">
+        <input class="floating-input" [(ngModel)]="monto" placeholder=" " type="number" />
+        <label class="floating-label">Monto total ($)</label>
+    </div>
+
+    <ion-item [class.invalid-field]="submitAttempted && !pagadoPorId">
+        <ion-label position="stacked" class="select-label-grande">¿Quién pagó?</ion-label>
+        <ion-select [(ngModel)]="pagadoPorId" cssClass="neon-select-alert">
+            <ion-select-option *ngFor="let p of personas" [value]="p.id">{{ p.nombre }}</ion-select-option>
+        </ion-select>
+    </ion-item>
+
+    <!-- Participantes -->
+    <div class="campo-label">¿Quiénes comparten el gasto?</div>
+    <div class="participantes-lista">
+        <div *ngFor="let p of personas" class="participante-chip" [class.activo]="isParticipante(p.id)"
+            (click)="toggleParticipante(p.id)">
+            <i class="fa-solid" [class]="isParticipante(p.id) ? 'fa-circle-check' : 'fa-circle'"></i>
+            {{ p.nombre }}
+        </div>
+    </div>
+
+    <!-- Toggle división igual / desigual -->
+    <div class="division-toggle">
+        <span class="division-label">División</span>
+        <div class="toggle-chips">
+            <div class="toggle-chip" [class.activo]="divisionIgual" (click)="divisionIgual = true">
+                <i class="fa-solid fa-equals"></i> Igual
+            </div>
+            <div class="toggle-chip" [class.activo]="!divisionIgual" (click)="divisionIgual = false">
+                <i class="fa-solid fa-sliders"></i> Desigual
+            </div>
+        </div>
+    </div>
+
+    <!-- Montos individuales (solo si división desigual) -->
+    <div *ngIf="!divisionIgual" class="montos-individuales">
+        <div class="campo-label">Monto por persona</div>
+        <div class="floating-input-wrapper" *ngFor="let p of participantes">
+            <input class="floating-input" [(ngModel)]="montosMap[p.id]" placeholder=" " type="number" />
+            <label class="floating-label">{{ p.nombre }}</label>
+        </div>
+
+        <!-- Restante -->
+        <div class="restante-row" [class.ok]="restanteValido" [class.error]="!restante && !restanteValido">
+            <span *ngIf="restanteValido">
+                <i class="fa-solid fa-circle-check"></i> Los montos cierran
+            </span>
+            <span *ngIf="!restanteValido">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Restante por asignar: {{ restante | currency:'$':'symbol':'1.0-0' }}
+            </span>
+        </div>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="botonesNuevoPendiente">
+            <ion-button fill="outline" color="neon" (click)="cancel()" style="--border-width: 1px;">Cancelar</ion-button>
+            <ion-button color="neon" (click)="save()"
+                [disabled]="!divisionIgual && !restanteValido">Guardar</ion-button>
+        </div>
+    </ion-toolbar>
+</ion-footer>

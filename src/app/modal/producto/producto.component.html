@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Nombre del producto -->
+  <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!name || !name.trim())">
+    <input class="floating-input" id="inputNombreProducto" type="text" [(ngModel)]="name" placeholder=" " />
+    <label class="floating-label" for="inputNombreProducto">Nombre del producto</label>
+  </div>
+
+  <!-- Categoría del producto -->
+  <ion-item [class.invalid-field]="submitAttempted && !categoriaSeleccionada">
+    <ion-label position="stacked" class="select-label-grande">Categoría del producto</ion-label>
+    <ion-select [(ngModel)]="categoriaSeleccionada" cssClass="neon-select-alert">
+      <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
+        {{ getCategoriaLabel(categoria) }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Marca / Detalle -->
+  <div class="floating-input-wrapper" style="margin-top: 12px;">
+    <input class="floating-input" id="inputMarcaProducto" type="text" [(ngModel)]="marca" placeholder=" " />
+    <label class="floating-label" for="inputMarcaProducto">Detalle del producto</label>
+  </div>
+
+  <!-- Cantidad en fila -->
+  <div class="cantidad-precio-row" style="margin-bottom: 12px; align-items: stretch;">
+    <ion-item class="unidad-item" style="flex:1; min-width:0;">
+      <ion-label position="stacked" class="select-label-grande">Cantidad</ion-label>
+      <ion-input type="number" [(ngModel)]="cantidad" min="0" style="--padding-start: 14px;"></ion-input>
+    </ion-item>
+
+    <ion-item class="unidad-item" style="flex:0.65; min-width:0;">
+      <ion-label position="stacked" class="select-label-grande">Unidad Cant.</ion-label>
+      <ion-select [(ngModel)]="unidadCantidad" cssClass="neon-select-alert" style="--padding-start: 14px;">
+        <ion-select-option *ngFor="let u of UNIDADES" [value]="u.value">{{ u.label }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+  <!-- Precio en fila -->
+  <div class="cantidad-precio-row" style="align-items: stretch;">
+    <ion-item class="unidad-item" style="flex:1; min-width:0;">
+      <ion-label position="stacked" class="select-label-grande">Precio</ion-label>
+      <ion-input type="number" [(ngModel)]="precio" min="0" step="0.01" style="--padding-start: 14px;"></ion-input>
+    </ion-item>
+
+    <ion-item class="unidad-item" style="flex:0.5; min-width:0;">
+      <ion-label position="stacked" class="select-label-grande">Por</ion-label>
+      <ion-input type="number" [(ngModel)]="cantidadPrecio" min="1" style="--padding-start: 14px;"></ion-input>
+    </ion-item>
+
+    <ion-item class="unidad-item" style="flex:0.5; min-width:0;">
+      <ion-label position="stacked" class="select-label-grande">Unidad</ion-label>
+      <ion-select [(ngModel)]="unidadPrecio" cssClass="neon-select-alert" style="--padding-start: 14px;">
+        <ion-select-option *ngFor="let u of UNIDADES" [value]="u.value">{{ u.label }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div id="botonesNuevoPendiente">
+      <ion-button fill="outline" color="neon" (click)="cancel()" style="--border-width: 1px;">Cancelar</ion-button>
+      <ion-button color="neon" (click)="save()">Guardar</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

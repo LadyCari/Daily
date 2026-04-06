@@ -1,0 +1,125 @@
+.campo-label {
+  font-size: 0.78rem;
+  opacity: 0.6;
+  padding: 1rem 0.25rem 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tipo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tipo-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.65rem 0.5rem;
+  border-radius: 12px;
+  border: 1.5px solid rgba(43, 248, 255, 0.2);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  font-size: 0.72rem;
+  text-align: center;
+  background: rgba(43, 248, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+
+  i {
+    font-size: 1.25rem;
+    color: rgba(43, 248, 255, 0.7);
+  }
+
+  &.activo {
+    border-color: #2bf8ff;
+    background: rgba(43, 248, 255, 0.15);
+    color: #2bf8ff;
+    box-shadow: 0 0 10px rgba(43, 248, 255, 0.2);
+
+    i {
+      color: #2bf8ff;
+    }
+  }
+}
+
+ion-footer {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+}
+
+#botonesNuevoPendiente {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+/* ── Fecha y hora en fila ── */
+.fecha-hora-row {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+
+  .time-input-wrapper {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+}
+
+/* ── Inputs de fecha/hora nativos ── */
+.time-input-wrapper {
+  margin: 10px 0;
+  border: 1.5px solid rgba(43, 248, 255, 0.4);
+  border-radius: 12px;
+  padding: 10px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: #2bf8ff;
+    box-shadow: 0 0 16px rgba(43, 248, 255, 0.2);
+  }
+}
+
+.time-label {
+  font-size: 0.75rem;
+  color: rgba(43, 248, 255, 0.7);
+  letter-spacing: 0.03em;
+}
+
+.time-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ion-text-color);
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 4px 0;
+  overflow: hidden;
+
+  &::-webkit-calendar-picker-indicator {
+    opacity: 0.65;
+    cursor: pointer;
+    padding: 4px;
+    margin-top: 0;
+    align-self: center;
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(160deg);
+  }
+}
+
+/* ── Textarea como floating-input ── */
+.textarea-input {
+  resize: none;
+  height: auto;
+  min-height: 72px;
+  line-height: 1.5;
+}

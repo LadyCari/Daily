@@ -1,0 +1,39 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="fields-container" *ngIf="form as f">
+    <div class="fields-top">
+      <div class="fields-title">Campos · {{ f.title }}</div>
+      <button class="btn-back" (click)="backToForm()">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
+
+    <div class="fields-actions">
+      <button class="btn-accion" (click)="addField()">
+        <i class="fa-solid fa-plus"></i>
+        Agregar campo
+      </button>
+    </div>
+
+    <div *ngIf="f.fields.length === 0" class="fields-empty">Todavía no hay campos.</div>
+
+    <div cdkDropList class="fields-lista" (cdkDropListDropped)="onReorder($event)" *ngIf="f.fields.length > 0">
+      <div cdkDrag class="field-card" *ngFor="let field of f.fields" (click)="editField(field)">
+        <div class="field-card-info">
+          <div class="field-title">{{ field.label }}</div>
+          <div class="field-sub">{{ field.type }}<span *ngIf="field.required"> · obligatorio</span></div>
+        </div>
+        <div class="field-card-right">
+          <button class="btn-icon btn-icon--danger" (click)="$event.stopPropagation(); deleteField(field)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+          <span class="drag-handle" cdkDragHandle (click)="$event.stopPropagation()">
+            <i class="fa-solid fa-bars"></i>
+          </span>
+        </div>
+        <div *cdkDragPlaceholder class="field-placeholder"></div>
+      </div>
+    </div>
+  </div>
+</ion-content>

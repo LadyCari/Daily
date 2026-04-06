@@ -1,0 +1,91 @@
+<ion-content [fullscreen]="true">
+  <div class="perfil-container">
+
+    <!-- Usuario logueado -->
+    @if (authSvc.user(); as u) {
+      <div class="user-card">
+        <img
+          class="user-avatar-img"
+          [src]="u.imageUrl"
+          (error)="avatarError = true"
+          [class.hidden]="avatarError"
+        />
+        <div class="user-avatar-fallback" [class.hidden]="!avatarError">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="user-info">
+          <strong>{{ u.name }}</strong>
+          <span>{{ u.email }}</span>
+        </div>
+        <button class="btn-logout" (click)="signOut()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    }
+
+    <!-- No logueado -->
+    @if (!authSvc.user()) {
+      <div class="perfil-avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <button class="btn-google" (click)="signIn()">
+        <i class="fa-brands fa-google"></i>
+        Continuar con Google
+      </button>
+      <p class="login-hint">Iniciá sesión para guardar directamente en Drive</p>
+    }
+
+    @if (authSvc.user()) {
+      <div class="section-label">Grupos</div>
+      <button class="btn-backup btn-backup--grupos" (click)="goToGrupos()" style="margin-bottom: 1.5rem">
+        <i class="fa-solid fa-users"></i>
+        <span>
+          <strong>Mis grupos</strong>
+          <small>Sincronizá datos con otras personas</small>
+        </span>
+        <i class="fa-solid fa-chevron-right" style="font-size:0.8rem;opacity:0.35;margin-left:auto"></i>
+      </button>
+    }
+
+    <div class="section-label">Respaldo general</div>
+
+    <div class="backup-actions">
+
+      @if (authSvc.user()) {
+        <button class="btn-backup btn-backup--drive" (click)="exportarAlDrive()">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>
+            <strong>Guardar en Drive</strong>
+            <small>Sube el respaldo a tu Google Drive</small>
+          </span>
+        </button>
+
+        <button class="btn-backup btn-backup--drive-import" (click)="importarDesdeDrive()">
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+          <span>
+            <strong>Importar desde Drive</strong>
+            <small>Restaura un respaldo guardado en Drive</small>
+          </span>
+        </button>
+      }
+
+      <button class="btn-backup" (click)="exportarCompartir()">
+        <i class="fa-solid fa-share-nodes"></i>
+        <span>
+          <strong>Exportar y compartir</strong>
+          <small>WhatsApp, email, guardar en el cel...</small>
+        </span>
+      </button>
+
+      <button class="btn-backup btn-backup--import" (click)="importarTodo()">
+        <i class="fa-solid fa-cloud-arrow-down"></i>
+        <span>
+          <strong>Importar todo</strong>
+          <small>Restaura desde un respaldo</small>
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+</ion-content>

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ mode === 'create' ? 'Nuevo campo' : 'Editar campo' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div class="floating-input-wrapper">
+    <input class="floating-input" type="text" [(ngModel)]="label" placeholder=" " />
+    <label class="floating-label">Título</label>
+  </div>
+
+  <div class="floating-input-wrapper">
+    <select class="floating-input" [(ngModel)]="type">
+      <option *ngFor="let t of TYPES" [ngValue]="t.value">{{ t.label }}</option>
+    </select>
+    <label class="floating-label">Tipo</label>
+  </div>
+
+  <div class="required-row">
+    <span class="required-label">Obligatorio</span>
+    <label class="switch">
+      <input type="checkbox" [(ngModel)]="required" />
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="floating-input-wrapper" *ngIf="type === 'select'">
+    <textarea class="floating-input" rows="3" [(ngModel)]="optionsText" placeholder=" "></textarea>
+    <label class="floating-label">Opciones (separadas por coma)</label>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="botonesNuevoPendiente">
+      <ion-button fill="outline" color="neon" (click)="cancel()" style="--border-width: 1px;">Cancelar</ion-button>
+      <ion-button color="neon" (click)="save()">Guardar</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

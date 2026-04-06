@@ -1,0 +1,33 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="extra-container">
+
+    <!-- Tarjeta: Cálculo de Gastos -->
+    <div class="hub-card" (click)="goToGastos()">
+      <div class="hub-card-icon">
+        <i class="fa-solid fa-calculator"></i>
+      </div>
+      <div class="hub-card-info">
+        <span class="hub-card-titulo">Cálculo de Gastos</span>
+        <span class="hub-card-desc">Dividí gastos entre personas y calculá quién le debe a quién</span>
+      </div>
+      <i class="fa-solid fa-chevron-right hub-card-arrow"></i>
+    </div>
+
+    <!-- Tarjeta: Forms personalizados -->
+    <div class="hub-card" (click)="goToForms()">
+      <div class="hub-card-icon">
+        <i class="fa-solid fa-rectangle-list"></i>
+      </div>
+      <div class="hub-card-info">
+        <span class="hub-card-titulo">Forms personalizados</span>
+        <span class="hub-card-desc">Creá tarjetas con campos personalizados y cargá ítems</span>
+      </div>
+      <i class="fa-solid fa-chevron-right hub-card-arrow"></i>
+    </div>
+
+  </div>
+
+</ion-content>

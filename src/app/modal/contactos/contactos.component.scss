@@ -1,0 +1,213 @@
+.contactos-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1rem 2rem;
+    opacity: 0.45;
+    gap: 0.5rem;
+    text-align: center;
+
+    i {
+        font-size: 2.8rem;
+    }
+
+    p {
+        margin: 0;
+        font-size: 0.92rem;
+    }
+
+    .hint {
+        font-size: 0.78rem;
+        opacity: 0.7;
+    }
+}
+
+.contactos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin-bottom: 1rem;
+}
+
+.contacto-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    padding: 0.75rem 1rem;
+}
+
+.contacto-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(43, 248, 255, 0.15);
+    color: #2bf8ff;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contacto-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.contacto-nombre {
+    font-size: 0.95rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.contacto-cbu {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &.sin-cbu {
+        opacity: 0.3;
+        font-style: italic;
+    }
+}
+
+.btn-eliminar {
+    background: transparent;
+    border: none;
+    color: #ff6b6b;
+    opacity: 0.5;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.3rem 0.4rem;
+    flex-shrink: 0;
+
+    &:active {
+        opacity: 1;
+    }
+}
+
+/* Formulario */
+.form-nuevo {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background: rgba(43, 248, 255, 0.04);
+    border: 1px solid rgba(43, 248, 255, 0.15);
+    border-radius: 16px;
+}
+
+.form-titulo {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #2bf8ff;
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+}
+
+.form-acciones {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    justify-content: flex-end;
+}
+
+.btn-cancelar {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: inherit;
+    opacity: 0.6;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+}
+
+.btn-guardar {
+    background: rgba(43, 248, 255, 0.15);
+    border: 1px solid rgba(43, 248, 255, 0.4);
+    border-radius: 8px;
+    color: #2bf8ff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+
+    &:active {
+        background: rgba(43, 248, 255, 0.28);
+    }
+}
+
+.btn-nuevo-contacto-header {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: rgba(43, 248, 255, 0.12);
+    border: 1px solid rgba(43, 248, 255, 0.35);
+    border-radius: 8px;
+    color: #2bf8ff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+
+    &:active {
+        background: rgba(43, 248, 255, 0.25);
+    }
+}
+
+/* Floating input (reutilizado de global) */
+.floating-input-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+
+    &.invalid-field .floating-input {
+        border-color: rgba(255, 100, 100, 0.6);
+    }
+}
+
+.floating-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: inherit;
+    font-size: 0.92rem;
+    padding: 1.1rem 0.85rem 0.45rem;
+    box-sizing: border-box;
+    outline: none;
+
+    &:focus {
+        border-color: rgba(43, 248, 255, 0.5);
+    }
+
+    &:focus + .floating-label,
+    &:not(:placeholder-shown) + .floating-label {
+        top: 0.35rem;
+        font-size: 0.7rem;
+        color: #2bf8ff;
+        opacity: 0.8;
+    }
+}
+
+.floating-label {
+    position: absolute;
+    left: 0.85rem;
+    top: 0.78rem;
+    font-size: 0.88rem;
+    opacity: 0.45;
+    pointer-events: none;
+    transition: all 0.15s ease;
+}

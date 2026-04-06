@@ -1,0 +1,1 @@
+﻿src/app/modal/producto/producto.component.ts(38,7): error TS2322: Type '"At"' is not assignable to type 'UnidadMedida'.

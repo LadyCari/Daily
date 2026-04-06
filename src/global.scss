@@ -1,0 +1,842 @@
+@import "@ionic/angular/css/core.css";
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+@import '@ionic/angular/css/palettes/dark.class.css';
+
+ion-content {
+	--padding-start: calc(var(--ion-safe-area-left, 0px) + 12px);
+	--padding-end: calc(var(--ion-safe-area-right, 0px) + 12px);
+	box-sizing: border-box;
+}
+
+:root {
+	--ion-color-primary: #9eeafc;
+	--ion-color-primary-rgb: 158, 234, 252;
+	--ion-color-primary-contrast: #00303a;
+	--ion-color-primary-contrast-rgb: 0, 48, 58;
+	--ion-color-primary-shade: #8bd2e3;
+	--ion-color-primary-tint: #aaf0ff;
+	--ion-color-neon: #2bf8ff;
+	--ion-color-neon-rgb: 43, 248, 255;
+	--ion-color-neon-contrast: #000000;
+	--ion-color-neon-contrast-rgb: 0, 0, 0;
+	--ion-color-neon-shade: #26dae0;
+	--ion-color-neon-tint: #40f9ff;
+}
+
+.dark {
+	/* ── Fondos principales ── */
+	--app-bg: #07070a;
+	/* fondo de página */
+	--app-bg-card: #0f1113;
+	/* fondo de cards e items */
+	--app-bg-elevated: #13161a;
+	/* modales, popovers */
+	--app-bg-toolbar: #07070a;
+	/* toolbar / tabbar */
+
+	/* ── Superficies (capas translúcidas sobre el fondo oscuro) ── */
+	--app-surface-04: rgba(255, 255, 255, 0.04);
+	--app-surface-05: rgba(255, 255, 255, 0.05);
+	--app-surface-07: rgba(255, 255, 255, 0.07);
+	--app-surface-08: rgba(255, 255, 255, 0.08);
+	--app-surface-09: rgba(255, 255, 255, 0.09);
+	--app-surface-10: rgba(255, 255, 255, 0.10);
+	--app-surface-12: rgba(255, 255, 255, 0.12);
+	--app-surface-14: rgba(255, 255, 255, 0.14);
+	--app-surface-15: rgba(255, 255, 255, 0.15);
+	--app-surface-17: rgba(255, 255, 255, 0.17);
+
+	/* ── Bordes ── */
+	--app-border: rgba(255, 255, 255, 0.10);
+	/* borde genérico */
+	--app-border-20: rgba(255, 255, 255, 0.20);
+	/* borde más visible */
+	--app-border-neon: rgba(43, 248, 255, 0.20);
+	/* borde neon sutil */
+	--app-border-neon-strong: rgba(43, 248, 255, 0.45);
+	/* borde neon activo */
+
+	/* ── Texto ── */
+	--app-text: #ffffff;
+	/* texto principal */
+	--app-text-muted: rgba(255, 255, 255, 0.55);
+	/* texto secundario */
+	--app-text-disabled: rgba(255, 255, 255, 0.30);
+	/* texto deshabilitado */
+
+	/* ── Acento neon ── */
+	--app-neon: #2bf8ff;
+	/* color neon principal */
+	--app-neon-soft: rgba(43, 248, 255, 0.55);
+	/* neon suavizado */
+	--app-neon-dim: rgba(43, 248, 255, 0.20);
+	/* neon muy tenue */
+	--app-neon-glow: rgba(43, 248, 255, 0.15);
+	/* sombra/glow neon */
+
+	/* ── Colores de estado ── */
+	--app-success: #4ade80;
+	/* éxito / positivo */
+	--app-warning: #facc15;
+	/* advertencia */
+	--app-danger: #ff6464;
+	/* error / eliminar */
+	--app-danger-dim: rgba(255, 100, 100, 0.12);
+	/* fondo peligro */
+	--app-info: #93c5fd;
+	/* informativo */
+
+	/* ── Sombras ── */
+	--app-shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.35);
+	--app-shadow-md: 0 4px 24px rgba(0, 0, 0, 0.45);
+	--app-shadow-neon: 0 0 16px rgba(43, 248, 255, 0.20);
+
+	/* ── Colores configurables por sección (defaults dark) ── */
+	--app-color-bg-home: #07070a;
+	--app-color-bg-extra: #07070a;
+	--app-color-bg-compras: #07070a;
+	--app-color-header: #04040b;
+	--app-color-footer: #04040b;
+	--app-color-text: rgba(255, 255, 255, 0.88);
+
+	/* ── Variables configurables Home ── */
+	--home-accent: #2bf8ff;
+	--home-border: rgba(43, 248, 255, 0.22);
+	--home-gradient: rgba(43, 248, 255, 0.07);
+	--home-gradient-dim: rgba(43, 248, 255, 0.03);
+	--home-glow: rgba(43, 248, 255, 0.18);
+	--home-icon-color: #2bf8ff;
+	--home-cal-selected: #2bf8ff;
+
+	/* ── Variables por sección (card individual) ── */
+	--recordatorio-border: rgba(43, 248, 255, 0.22);
+	--recordatorio-bg: rgba(43, 248, 255, 0.07);
+	--recordatorio-bg-dim: rgba(43, 248, 255, 0.03);
+	--horario-border: rgba(43, 248, 255, 0.22);
+	--horario-bg: rgba(43, 248, 255, 0.07);
+	--horario-bg-dim: rgba(43, 248, 255, 0.03);
+	--calendario-border: rgba(43, 248, 255, 0.22);
+	--calendario-bg: rgba(43, 248, 255, 0.07);
+	--calendario-bg-dim: rgba(43, 248, 255, 0.03);
+
+
+	/* ── Variables Ionic heredadas ── */
+	--ion-background-color: var(--app-bg);
+	--ion-background-color-rgb: 7, 7, 10;
+	--ion-text-color: var(--app-color-text);
+	--ion-card-background: var(--app-bg-card);
+	--ion-item-background: var(--app-bg-card);
+	--ion-toolbar-background: var(--app-color-header);
+	--ion-toolbar-color: var(--app-color-text);
+	--ion-tabbar-background: var(--app-color-footer);
+	--ion-color-step-600: #1f2933;
+}
+
+.light {
+	/* ── Fondos principales ── */
+	--app-bg: #f4f6f9;
+	/* fondo de página */
+	--app-bg-card: #ffffff;
+	/* fondo de cards e items */
+	--app-bg-elevated: #ffffff;
+	/* modales, popovers */
+	--app-bg-toolbar: #ffffff;
+	/* toolbar / tabbar */
+
+	/* ── Superficies (capas translúcidas sobre el fondo claro) ── */
+	--app-surface-04: rgba(0, 0, 0, 0.04);
+	--app-surface-05: rgba(0, 0, 0, 0.05);
+	--app-surface-07: rgba(0, 0, 0, 0.07);
+	--app-surface-08: rgba(0, 0, 0, 0.08);
+	--app-surface-09: rgba(0, 0, 0, 0.09);
+	--app-surface-10: rgba(0, 0, 0, 0.10);
+	--app-surface-12: rgba(0, 0, 0, 0.12);
+	--app-surface-14: rgba(0, 0, 0, 0.14);
+	--app-surface-15: rgba(0, 0, 0, 0.15);
+	--app-surface-17: rgba(0, 0, 0, 0.17);
+
+	/* ── Bordes ── */
+	--app-border: rgba(0, 0, 0, 0.10);
+	/* borde genérico */
+	--app-border-20: rgba(0, 0, 0, 0.20);
+	/* borde más visible */
+	--app-border-neon: rgba(0, 160, 170, 0.25);
+	/* borde acento claro */
+	--app-border-neon-strong: rgba(0, 160, 170, 0.55);
+	/* borde acento activo */
+
+	/* ── Texto ── */
+	--app-text: #0d1117;
+	/* texto principal */
+	--app-text-muted: rgba(13, 17, 23, 0.55);
+	/* texto secundario */
+	--app-text-disabled: rgba(13, 17, 23, 0.30);
+	/* texto deshabilitado */
+
+	/* ── Acento (versión clara del neon) ── */
+	--app-neon: #0097a7;
+	/* acento teal modo claro */
+	--app-neon-soft: rgba(0, 151, 167, 0.55);
+	--app-neon-dim: rgba(0, 151, 167, 0.15);
+	--app-neon-glow: rgba(0, 151, 167, 0.12);
+
+	/* ── Colores de estado ── */
+	--app-success: #16a34a;
+	--app-warning: #ca8a04;
+	--app-danger: #dc2626;
+	--app-danger-dim: rgba(220, 38, 38, 0.10);
+	--app-info: #2563eb;
+
+	/* ── Sombras ── */
+	--app-shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.08);
+	--app-shadow-md: 0 4px 24px rgba(0, 0, 0, 0.12);
+	--app-shadow-neon: 0 0 12px rgba(0, 151, 167, 0.15);
+
+	/* ── Colores configurables por sección (defaults light) ── */
+	--app-color-bg-home: #f4f6f9;
+	--app-color-bg-extra: #f4f6f9;
+	--app-color-bg-compras: #f4f6f9;
+	--app-color-header: #ffffff;
+	--app-color-footer: #ffffff;
+	--app-color-text: rgba(13, 17, 23, 0.88);
+
+	/* ── Variables Ionic heredadas ── */
+	--ion-background-color: var(--app-bg);
+	--ion-background-color-rgb: 244, 246, 249;
+	--ion-text-color: var(--app-color-text);
+	--ion-card-background: var(--app-bg-card);
+	--ion-item-background: var(--app-bg-card);
+	--ion-toolbar-background: var(--app-color-header);
+	--ion-toolbar-color: var(--app-color-text);
+	--ion-tabbar-background: var(--app-color-footer);
+}
+
+.ion-color-neon {
+	--ion-color-base: var(--ion-color-neon);
+	--ion-color-base-rgb: var(--ion-color-neon-rgb);
+	--ion-color-contrast: var(--ion-color-neon-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-neon-contrast-rgb);
+	--ion-color-shade: var(--ion-color-neon-shade);
+	--ion-color-tint: var(--ion-color-neon-tint);
+}
+
+/* ═══════════════════════════════════════════════════════
+   TEMA NEON — Aplicado globalmente
+   Gradientes, bordes y brillos coherentes en toda la app
+   ═══════════════════════════════════════════════════════ */
+
+/* ── ion-card: gradiente sutil en todas las cards ── */
+ion-card {
+	border-radius: 16px !important;
+	overflow: hidden !important;
+	/* fix Android: border-radius clips children correctly */
+	outline: 1px solid rgba(43, 248, 255, 0.18);
+	/* outline stays on top of shadow DOM background */
+	/* Use --background (Ionic Shadow DOM custom property) — not the native 'background' property */
+	--background: linear-gradient(145deg,
+			rgba(43, 248, 255, 0.05) 0%,
+			rgba(43, 248, 255, 0.01) 100%);
+	box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(43, 248, 255, 0.08) !important;
+	transition: box-shadow 0.2s;
+
+	&:active {
+		box-shadow: 0 2px 24px rgba(43, 248, 255, 0.12), inset 0 1px 0 rgba(43, 248, 255, 0.12) !important;
+	}
+}
+
+ion-modal.themed-modal::part(content) {
+	background: var(--modal-bg, #0f1113);
+	border: 1px solid var(--modal-border, rgba(43, 248, 255, 0.22));
+	border-radius: 16px;
+	box-shadow: 0 0 30px var(--modal-glow, rgba(43, 248, 255, 0.12));
+	overflow: hidden;
+}
+
+ion-modal.themed-modal ion-toolbar {
+	--background: transparent;
+	--color: var(--app-color-text, rgba(255, 255, 255, 0.88));
+}
+
+ion-modal.themed-modal ion-content {
+	--background: transparent;
+}
+
+ion-modal.themed-modal .modal-accent-icon {
+	color: var(--modal-accent, #2bf8ff);
+}
+
+ion-modal.themed-modal .floating-input {
+	border-color: var(--modal-input-border, var(--modal-border, rgba(43, 248, 255, 0.22)));
+}
+
+ion-modal.themed-modal .floating-input:focus {
+	border-color: var(--modal-accent, #2bf8ff);
+	box-shadow: 0 0 16px var(--modal-input-glow, var(--modal-glow, rgba(43, 248, 255, 0.20)));
+}
+
+ion-modal.themed-modal .floating-label {
+	color: color-mix(in srgb, var(--modal-accent, #2bf8ff) 70%, transparent);
+}
+
+ion-modal.themed-modal .time-input-wrapper {
+	border-color: var(--modal-input-border, var(--modal-border, rgba(43, 248, 255, 0.22)));
+}
+
+ion-modal.themed-modal .time-input-wrapper:focus-within {
+	border-color: var(--modal-accent, #2bf8ff);
+	box-shadow: 0 0 16px var(--modal-input-glow, var(--modal-glow, rgba(43, 248, 255, 0.20)));
+}
+
+/* ── ion-toolbar: borde inferior neon + sin fondo opaco ── */
+ion-toolbar {
+	--border-width: 0 0 1px 0;
+	--border-color: rgba(43, 248, 255, 0.15);
+	--background: var(--ion-toolbar-background, #07070a);
+}
+
+/* ── ion-title: color neon suave ── */
+ion-header ion-title {
+	color: var(--ion-text-color);
+	letter-spacing: 0.01em;
+}
+
+/* ── ion-item: sin fondo plano, con línea separadora neon ── */
+ion-item {
+	--border-color: rgba(43, 248, 255, 0.15);
+	--highlight-color-focused: #2bf8ff;
+	--highlight-height: 2px;
+}
+
+/* ── Dentro de ion-card: resetear bordes internos de ion-item para
+   evitar que la línea divisoria neon aparezca como artefacto en móvil ── */
+ion-card ion-item {
+	--border-color: transparent;
+	--inner-border-width: 0;
+}
+
+/* ── ion-card-content: clip para que el indicador de ion-segment
+   no se desborde fuera del contorno de la card ── */
+ion-card-content {
+	overflow: hidden;
+}
+
+/* ── ion-segment: estilo neon ── */
+ion-segment {
+	--background: rgba(43, 248, 255, 0.06);
+	border-radius: 10px;
+}
+
+ion-segment-button {
+	--color: rgba(255, 255, 255, 0.5);
+	--color-checked: #2bf8ff;
+	--indicator-color: rgba(43, 248, 255, 0.2);
+	--border-radius: 8px;
+	font-size: 0.82rem;
+}
+
+/* ── ion-button color neon: glow al presionar ── */
+ion-button[color="neon"] {
+	--box-shadow: 0 0 12px rgba(43, 248, 255, 0.35);
+	transition: box-shadow 0.2s;
+
+	&:active,
+	&.activated {
+		--box-shadow: 0 0 20px rgba(43, 248, 255, 0.55);
+	}
+}
+
+/* ── Chips de tipo/categoría: borde neon al seleccionar ── */
+.tipo-chip.activo,
+.cat-chip.activo {
+	box-shadow: 0 0 10px rgba(43, 248, 255, 0.2);
+}
+
+/* ── Hub cards (Extra page y similares): efecto hover más pronunciado ── */
+.hub-card {
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(43, 248, 255, 0.08);
+	transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+
+	&:active {
+		box-shadow: 0 2px 20px rgba(43, 248, 255, 0.15), inset 0 1px 0 rgba(43, 248, 255, 0.12);
+	}
+}
+
+/* ── Floating label inputs (reutilizable en toda la app) ── */
+.floating-input-wrapper {
+	position: relative;
+	margin: 12px 0;
+}
+
+.floating-input {
+	width: 100%;
+	padding: 14px;
+	background: transparent;
+	border: 1.5px solid rgba(43, 248, 255, 0.4);
+	border-radius: 12px;
+	color: var(--ion-text-color);
+	font-size: 1rem;
+	outline: none;
+	box-sizing: border-box;
+	transition: border-color 0.2s, box-shadow 0.2s;
+
+	&:focus {
+		border-color: #2bf8ff;
+		box-shadow: 0 0 16px rgba(43, 248, 255, 0.2);
+	}
+}
+
+.floating-label {
+	position: absolute;
+	left: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 1rem;
+	color: rgba(43, 248, 255, 0.55);
+	pointer-events: none;
+	transition: top 0.2s, font-size 0.2s, color 0.2s;
+	padding: 0 4px;
+	border-radius: 4px;
+}
+
+.floating-input:focus~.floating-label,
+.floating-input:not(:placeholder-shown)~.floating-label,
+.floating-label.active {
+	top: 0;
+	font-size: 0.75rem;
+	color: #2bf8ff;
+	background: var(--ion-background-color, #07070a);
+}
+
+/* ── Empty states globales ── */
+.empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 2rem 1rem;
+	opacity: 0.4;
+	gap: 0.6rem;
+	text-align: center;
+
+	i {
+		font-size: 2.2rem;
+	}
+
+	p {
+		margin: 0;
+		font-size: 0.85rem;
+	}
+}
+
+/* ── Card header global (título izquierda, acción derecha) ── */
+.card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.75rem 1rem;
+	font-weight: 600;
+	font-size: 0.95rem;
+
+	span {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+}
+
+/* ── Accion icon (+ agregar en cards) ── */
+.accion-icon {
+	font-size: 1.1rem;
+	cursor: pointer;
+	color: #2bf8ff;
+	padding: 0.25rem;
+	transition: opacity 0.15s;
+
+	&:active {
+		opacity: 0.6;
+	}
+}
+
+/* ══════════════════════════════════════════════════════════
+   ESTILOS GLOBALES DE INPUTS — Neon style en toda la app
+   Aplica a ion-item + ion-input / ion-select / ion-textarea
+   ══════════════════════════════════════════════════════════ */
+
+/* ── ion-item que contiene inputs: sin fondo ni línea, con borde neon ── */
+ion-item.sc-ion-input-md-h,
+ion-item:has(ion-input),
+ion-item:has(ion-select),
+ion-item:has(ion-textarea) {
+	--background: transparent;
+	--border-width: 0;
+	--inner-border-width: 0;
+	--padding-start: 0;
+	--inner-padding-end: 0;
+	margin: 10px 0;
+	border: 1.5px solid rgba(43, 248, 255, 0.4);
+	border-radius: 12px;
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s;
+
+	&:focus-within {
+		border-color: #2bf8ff;
+		box-shadow: 0 0 16px rgba(43, 248, 255, 0.2);
+	}
+}
+
+/* ── ion-label dentro de ion-item (modo stacked) ── */
+ion-item:has(ion-input) ion-label,
+ion-item:has(ion-select) ion-label,
+ion-item:has(ion-textarea) ion-label {
+	color: rgba(43, 248, 255, 0.7) !important;
+	font-size: 0.75rem !important;
+	margin-bottom: 2px;
+	padding-top: 10px;
+	padding-left: 14px;
+}
+
+/* ── ion-input global ── */
+ion-input {
+	--background: transparent;
+	--color: var(--ion-text-color);
+	--placeholder-color: rgba(158, 234, 252, 0.4);
+	--padding-start: 14px;
+	--padding-end: 14px;
+	--padding-top: 10px;
+	--padding-bottom: 10px;
+	font-size: 1rem;
+}
+
+/* ── ion-select global ── */
+ion-select {
+	--background: transparent;
+	--color: var(--ion-text-color);
+	--placeholder-color: rgba(158, 234, 252, 0.4);
+	--padding-start: 14px;
+	--padding-end: 14px;
+	--padding-top: 10px;
+	--padding-bottom: 10px;
+	font-size: 1rem;
+	width: 100%;
+}
+
+/* ── ion-textarea global ── */
+ion-textarea {
+	--background: transparent;
+	--color: var(--ion-text-color);
+	--placeholder-color: rgba(158, 234, 252, 0.4);
+	--padding-start: 14px;
+	--padding-end: 14px;
+	--padding-top: 10px;
+	--padding-bottom: 10px;
+	font-size: 1rem;
+}
+
+/* ── Color blanco del select en modo oscuro ── */
+.dark {
+	ion-select {
+		--color: #ffffff;
+		color: #ffffff;
+	}
+
+	ion-select::part(text) {
+		color: #ffffff;
+	}
+
+	ion-select::part(placeholder) {
+		color: rgba(255, 255, 255, 0.4);
+	}
+
+	ion-select::part(icon) {
+		color: rgba(43, 248, 255, 0.7);
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEON ACTION SHEET — popup de opciones con temática neon
+   ═══════════════════════════════════════════════════════════ */
+ion-action-sheet {
+	--background: #0f1113;
+	--color: #ffffff;
+	--button-color: #ffffff;
+	--button-background: transparent;
+	--button-background-activated: rgba(43, 248, 255, 0.1);
+
+	&::part(container) {
+		border-top: 1px solid rgba(43, 248, 255, 0.2);
+		box-shadow: 0 -4px 24px rgba(43, 248, 255, 0.08);
+	}
+
+	&::part(title) {
+		color: rgba(43, 248, 255, 0.8);
+		font-weight: 600;
+	}
+
+	.action-sheet-button {
+		color: #ffffff !important;
+	}
+
+	.action-sheet-destructive {
+		color: #ff6b6b !important;
+	}
+
+	.action-sheet-cancel {
+		color: rgba(43, 248, 255, 0.9) !important;
+		font-weight: 600;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NEON SELECT ALERT — popup del ion-select con temática neon
+   Usa CSS custom properties que sí atraviesan el shadow DOM
+   ═══════════════════════════════════════════════════════════ */
+.neon-select-alert {
+	/* Variables de ion-alert que penetran el shadow DOM */
+	--background: #0f1113;
+	--color: #ffffff;
+	--backdrop-opacity: 0.7;
+	--min-width: 280px;
+
+	/* Borde y sombra sobre el contenedor del alert */
+	&::part(container) {
+		background: #0f1113;
+		border: 1px solid rgba(43, 248, 255, 0.3);
+		border-radius: 16px;
+		box-shadow: 0 0 30px rgba(43, 248, 255, 0.15);
+	}
+
+	/* Título */
+	&::part(header) {
+		color: #2bf8ff;
+	}
+
+	/* Botones OK/Cancelar */
+	&::part(button) {
+		color: #2bf8ff;
+		font-weight: 600;
+	}
+
+	/* Opciones de radio — light DOM, accesibles directamente */
+	.alert-radio-button {
+		--color: rgba(255, 255, 255, 0.85);
+		--color-checked: #2bf8ff;
+		--border-color: rgba(43, 248, 255, 0.35);
+		--border-color-checked: #2bf8ff;
+		--background: transparent;
+		--background-focused: rgba(43, 248, 255, 0.06);
+	}
+
+	.alert-radio-label {
+		color: rgba(255, 255, 255, 0.85) !important;
+		font-size: 0.95rem;
+	}
+
+	[aria-checked='true'] .alert-radio-label {
+		color: #2bf8ff !important;
+	}
+
+	/* Separador antes de botones */
+	.alert-button-group {
+		border-top: 1px solid rgba(43, 248, 255, 0.12);
+	}
+
+	.alert-button {
+		color: #2bf8ff !important;
+		font-weight: 500;
+	}
+}
+
+/* Fallback global: cualquier ion-alert en modo oscuro */
+.dark ion-alert,
+ion-alert.dark {
+	--background: #0f1113;
+	--color: #ffffff;
+
+	.alert-radio-label {
+		color: rgba(255, 255, 255, 0.85) !important;
+	}
+
+	[aria-checked='true'] .alert-radio-label {
+		color: #2bf8ff !important;
+	}
+
+	.alert-button {
+		color: #2bf8ff !important;
+	}
+}
+
+/* ── Label grande para selects destacados ── */
+.select-label-grande {
+	font-size: 1rem !important;
+	font-weight: 600 !important;
+	color: rgba(43, 248, 255, 0.85) !important;
+	padding-top: 4px;
+	padding-bottom: 2px;
+}
+
+/* ═══════════════════════════════════════════════════
+   TAB BAR GLOBAL — Active state con neon
+   Usa clase .tab-active aplicada via Router en tabs.page.ts
+   ═══════════════════════════════════════════════════ */
+
+/* Tab bar contenedor */
+ion-tab-bar#navBar {
+	--background: var(--app-color-footer, #04040b);
+	--border: none;
+	background: var(--app-color-footer, #04040b) !important;
+	border-top: 1px solid rgba(43, 248, 255, 0.14);
+	box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.45);
+	height: 68px;
+	padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Botón base (inactivo) */
+ion-tab-bar#navBar ion-tab-button {
+	--color: rgba(255, 255, 255, 0.28);
+	--color-selected: rgba(255, 255, 255, 0.28);
+	--background: transparent;
+	--background-focused: transparent;
+	--ripple-color: transparent;
+	position: relative;
+	overflow: visible;
+	transition: all 0.28s ease;
+}
+
+/* Íconos Font Awesome en estado inactivo */
+ion-tab-bar#navBar ion-tab-button .tab-icon {
+	font-size: 1.3rem;
+	color: rgba(255, 255, 255, 0.28) !important;
+	transition: color 0.28s ease, filter 0.28s ease, transform 0.28s ease !important;
+	display: block;
+}
+
+/* Etiqueta en estado inactivo: invisible */
+ion-tab-bar#navBar ion-tab-button .tab-label {
+	font-size: 0.60rem !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.07em !important;
+	color: rgba(255, 255, 255, 0.28) !important;
+	opacity: 0 !important;
+	transform: translateY(3px) !important;
+	transition: opacity 0.28s ease, transform 0.28s ease, color 0.28s ease !important;
+	text-transform: none !important;
+	display: block !important;
+}
+
+/* ── Tab ACTIVO: ícono cyan + label visible ── */
+ion-tab-bar#navBar ion-tab-button.tab-active .tab-icon {
+	color: #2bf8ff !important;
+	filter: drop-shadow(0 0 8px rgba(43, 248, 255, 0.80)) !important;
+	transform: translateY(-2px) scale(1.1) !important;
+}
+
+ion-tab-bar#navBar ion-tab-button.tab-active .tab-label {
+	opacity: 1 !important;
+	transform: translateY(0) !important;
+	color: #2bf8ff !important;
+	text-shadow: 0 0 10px rgba(43, 248, 255, 0.60) !important;
+}
+
+/* ── Modo claro ── */
+.light ion-tab-bar#navBar {
+	background: var(--app-color-footer, #ffffff) !important;
+	border-top: 1px solid rgba(0, 151, 167, 0.18);
+	box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.light ion-tab-bar#navBar ion-tab-button .tab-icon {
+	color: rgba(0, 0, 0, 0.30) !important;
+}
+
+.light ion-tab-bar#navBar ion-tab-button .tab-label {
+	color: rgba(0, 0, 0, 0.30) !important;
+}
+
+.light ion-tab-bar#navBar ion-tab-button.tab-active .tab-icon {
+	color: #0097a7 !important;
+	filter: drop-shadow(0 0 6px rgba(0, 151, 167, 0.60)) !important;
+}
+
+.light ion-tab-bar#navBar ion-tab-button.tab-active .tab-label {
+	color: #0097a7 !important;
+	text-shadow: 0 0 8px rgba(0, 151, 167, 0.50) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   TOASTS PERSONALES — Para alertas de error en modales
+   ═══════════════════════════════════════════════════ */
+.neon-toast {
+  --background: #2b2b2b !important;
+  --color: #2bf8ff !important;
+  --border-radius: 12px;
+  --box-shadow: 0 0 20px rgba(43, 248, 255, 0.25);
+  font-weight: 500;
+  
+  &::part(container) {
+    border: 1px solid rgba(43, 248, 255, 0.4);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   VALIDATION: Invalid Fields (Red border & glow)
+   ═══════════════════════════════════════════════════ */
+.invalid-field.floating-input-wrapper .floating-input {
+	border-color: var(--app-danger, #ff6464) !important;
+	box-shadow: 0 0 12px rgba(255, 100, 100, 0.25) !important;
+}
+.invalid-field.floating-input-wrapper .floating-label {
+	color: var(--app-danger, #ff6464) !important;
+}
+
+ion-item.invalid-field, .invalid-field.time-input-wrapper {
+	border-color: var(--app-danger, #ff6464) !important;
+	box-shadow: 0 0 12px rgba(255, 100, 100, 0.25) !important;
+}
+ion-item.invalid-field ion-label {
+	color: var(--app-danger, #ff6464) !important;
+}
+
+/* ── Privacy toggle (modales) ── */
+.privacy-toggle {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin: 4px 0 12px;
+	padding: 10px 14px;
+	border-radius: 12px;
+	border: 1.5px solid rgba(255, 255, 255, 0.1);
+	cursor: pointer;
+	transition: border-color 0.2s, background 0.2s;
+	color: rgba(255, 255, 255, 0.45);
+	font-size: 0.9rem;
+	user-select: none;
+
+	i {
+		font-size: 1rem;
+		transition: color 0.2s;
+	}
+
+	&:active {
+		opacity: 0.75;
+	}
+}
+
+.privacy-toggle .privacy-on {
+	color: #ff9f43;
+}
+
+/* ── Lock icon en items de home ── */
+.item-private-icon {
+	font-size: 0.7rem;
+	color: #ff9f43;
+	margin-left: 4px;
+	vertical-align: middle;
+	opacity: 0.85;
+}

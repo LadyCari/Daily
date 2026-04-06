@@ -1,0 +1,70 @@
+<div class="detalle-container">
+
+    <div class="tituloProductos">
+      <h2><i class="fa-solid fa-box-open"></i> Todos los productos</h2>
+    </div>
+
+    <div class="search-container">
+      <input type="text" placeholder="Buscar producto..." [(ngModel)]="searchTerm" (input)="applySort()" />
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+
+    <div class="orden-row">
+      <button class="orden-item" [class.activo]="sortBy === 'name'" (click)="setSort('name')">
+        Nombre <span class="triangulo">{{ sortBy === 'name' ? (sortAsc ? '▲' : '▼') : '▾' }}</span>
+      </button>
+      <button class="orden-item" [class.activo]="sortBy === 'precio'" (click)="setSort('precio')">
+        Precio <span class="triangulo">{{ sortBy === 'precio' ? (sortAsc ? '▲' : '▼') : '▾' }}</span>
+      </button>
+      <button class="orden-item" [class.activo]="sortBy === 'categoria'" (click)="setSort('categoria')">
+        Categoría <span class="triangulo">{{ sortBy === 'categoria' ? (sortAsc ? '▲' : '▼') : '▾' }}</span>
+      </button>
+      <button class="orden-item" [class.activo]="sortBy === 'tienda'" (click)="setSort('tienda')">
+        Tienda <span class="triangulo">{{ sortBy === 'tienda' ? (sortAsc ? '▲' : '▼') : '▾' }}</span>
+      </button>
+      <button class="orden-item" [class.activo]="sortBy === 'comprar'" (click)="setSort('comprar')">
+        Comprar <span class="triangulo">{{ sortBy === 'comprar' ? (sortAsc ? '▲' : '▼') : '▾' }}</span>
+      </button>
+    </div>
+
+    <div class="empty-state" *ngIf="!productos.length">
+      <i class="fa-solid fa-box-open"></i>
+      <p>No hay productos registrados</p>
+    </div>
+
+    <ion-list *ngIf="productos.length">
+      <ion-item *ngFor="let p of productos" [class.producto-comprar]="p.comprar"
+        [class.producto-no-comprar]="!p.comprar">
+
+        <div class="producto-check" slot="start" (click)="toggleComprar(p)">
+          <div class="check-circulo" [class.check-activo]="p.comprar">
+            <i class="fa-solid fa-check" *ngIf="p.comprar"></i>
+          </div>
+        </div>
+
+        <div class="producto-contenido">
+          <div class="nombreProdcuto"> <i [class]="'fa-solid ' + getProductoIcon(p.categoria)"></i>
+            <strong>{{ p.name }}</strong>
+          </div>
+          <div class="detalle-producto">
+            {{ p.marca }} · {{ p.cantidad }} {{ p.unidadCantidad || 'Un' }} · {{ categoriaProductoInfo[p.categoria]?.label }}
+          </div>
+          <div class="tienda-badge">
+            <i class="fa-solid fa-store"></i> {{ p.tiendaNombre }}
+          </div>
+        </div>
+
+        <div class="precio-col">
+          <div class="precio-main">{{ p.precio | currency }}</div>
+          <div class="precio-sub">
+            <span *ngIf="p.cantidadPrecio && p.cantidadPrecio > 1">x {{ p.cantidadPrecio }} </span>{{ p.unidadPrecio || 'Un' }}
+          </div>
+        </div>
+        <div class="producto-menu-btn" (click)="openProductoMenu(p)" slot="end">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+
+      </ion-item>
+    </ion-list>
+
+</div>

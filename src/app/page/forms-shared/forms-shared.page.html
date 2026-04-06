@@ -1,0 +1,56 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <div class="shared-container">
+
+    @if (!form) {
+      <div class="empty-state">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <p>No se pudo cargar el formulario</p>
+      </div>
+    }
+
+    @if (form) {
+      <!-- Header -->
+      <div class="detail-top">
+        <button class="btn-back" (click)="volver()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="detail-title">{{ form.title }}</div>
+        <span class="shared-badge">
+          <i class="fa-solid fa-lock"></i> De {{ senderName }}
+        </span>
+      </div>
+
+      <!-- Sin campos -->
+      @if (!form.fields || form.fields.length === 0) {
+        <div class="section-empty">Este formulario no tiene campos configurados.</div>
+      }
+
+      <!-- Ítems -->
+      @if (form.fields?.length > 0) {
+        <div class="items-count">
+          {{ form.items?.length ?? 0 }} ítems
+        </div>
+
+        @if (!form.items || form.items.length === 0) {
+          <div class="section-empty">No hay ítems en este formulario.</div>
+        }
+
+        @for (item of form.items; track item.id) {
+          <div class="item-card">
+            @for (field of form.fields; track field.id) {
+              @if (item.values?.[field.id] !== undefined && item.values?.[field.id] !== null && item.values?.[field.id] !== '') {
+                <div class="item-row">
+                  <span class="item-label">{{ getFieldLabel(field) }}:</span>
+                  <span class="item-value">{{ item.values?.[field.id] }}</span>
+                </div>
+              }
+            }
+          </div>
+        }
+      }
+    }
+
+  </div>
+</ion-content>

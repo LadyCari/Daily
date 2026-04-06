@@ -1,0 +1,117 @@
+/* ═══════════════════════════════════════════════════
+   TAB BAR — Neon moderno
+   ViewEncapsulation.None — estilos aplican globalmente
+   Usa clase .tab-active (manejada via Router) en lugar
+   de aria-selected para máxima compatibilidad con Shadow DOM
+   ═══════════════════════════════════════════════════ */
+
+/* ── Botón base (inactivo) ── */
+#navBar ion-tab-button {
+  --color: rgba(255, 255, 255, 0.28);
+  --color-selected: rgba(255, 255, 255, 0.28);
+  --background: transparent;
+  --background-focused: transparent;
+  --background-focused-opacity: 0;
+  --ripple-color: transparent;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 6px;
+  gap: 3px;
+}
+
+/* ── Ícono Font Awesome — inactivo ── */
+#navBar ion-tab-button .tab-icon {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.28) !important;
+  transition: color 0.28s ease, filter 0.28s ease, transform 0.28s ease;
+  display: block;
+}
+
+/* ── Etiqueta — inactivo: oculta ── */
+#navBar ion-tab-button .tab-label {
+  font-size: 0.60rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  color: rgba(255, 255, 255, 0.28) !important;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.28s ease, transform 0.28s ease, color 0.28s ease;
+  text-transform: none;
+  line-height: 1;
+  display: block;
+  white-space: nowrap;
+}
+
+/* ── Tab ACTIVO — ícono cyan + label visible ── */
+#navBar ion-tab-button.tab-active .tab-icon {
+  color: #2bf8ff !important;
+  transform: translateY(-2px) scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(43, 248, 255, 0.85));
+}
+
+#navBar ion-tab-button.tab-active .tab-label {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  color: #2bf8ff !important;
+  text-shadow: 0 0 10px rgba(43, 248, 255, 0.65);
+}
+
+/* ── Línea indicadora top ── */
+#navBar ion-tab-button.tab-active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 2.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #2bf8ff 50%,
+    transparent 100%
+  );
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+/* ── Halo de luz detrás del ícono activo ── */
+#navBar ion-tab-button.tab-active::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(43, 248, 255, 0.14) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Modo claro ── */
+.light #navBar ion-tab-button .tab-icon {
+  color: rgba(0, 0, 0, 0.30) !important;
+}
+
+.light #navBar ion-tab-button .tab-label {
+  color: rgba(0, 0, 0, 0.30) !important;
+}
+
+.light #navBar ion-tab-button.tab-active .tab-icon {
+  color: #0097a7 !important;
+  filter: drop-shadow(0 0 6px rgba(0, 151, 167, 0.60));
+}
+
+.light #navBar ion-tab-button.tab-active .tab-label {
+  color: #0097a7 !important;
+  text-shadow: 0 0 8px rgba(0, 151, 167, 0.50);
+}

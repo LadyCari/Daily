@@ -1,0 +1,282 @@
+.grupo-detalle-container {
+    padding: 0.5rem;
+    padding-bottom: 5rem;
+}
+
+.grupo-titulo-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.5rem 0.25rem;
+}
+
+.btn-back {
+    background: rgba(43, 248, 255, 0.1);
+    border: 1px solid rgba(43, 248, 255, 0.25);
+    border-radius: 10px;
+    color: #2bf8ff;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+
+    &:active {
+        background: rgba(43, 248, 255, 0.25);
+    }
+}
+
+.grupo-titulo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+    /* empuja el btn-compartir a la derecha */
+}
+
+.btn-compartir {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: rgba(37, 211, 102, 0.15);
+    border: 1px solid rgba(37, 211, 102, 0.35);
+    color: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+    transition: background 0.2s, box-shadow 0.2s;
+
+    &:active {
+        background: rgba(37, 211, 102, 0.28);
+        box-shadow: 0 0 14px rgba(37, 211, 102, 0.4);
+    }
+}
+
+
+.grupo-titulo-texto {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.grupo-categoria-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    text-transform: capitalize;
+
+    &.cat-general {
+        background: rgba(43, 248, 255, 0.15);
+        color: #2bf8ff;
+    }
+
+    &.cat-regalo {
+        background: rgba(251, 191, 36, 0.15);
+        color: #fbbf24;
+    }
+
+    &.cat-cuentas {
+        background: rgba(167, 139, 250, 0.15);
+        color: #a78bfa;
+    }
+
+    &.cat-otros {
+        background: rgba(156, 163, 175, 0.15);
+        color: #9ca3af;
+    }
+}
+
+ion-card {
+    margin: 0.5rem 0;
+    border-radius: 16px;
+}
+
+.personas-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.25rem 0.75rem 0.75rem;
+}
+
+.persona-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 12px;
+    background: var(--app-surface-05);
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:active {
+        background: var(--app-surface-09);
+    }
+
+    &.acreedor {
+        border-left: 3px solid #34d399;
+    }
+
+    &.deudor {
+        border-left: 3px solid #f87171;
+    }
+}
+
+.persona-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(43, 248, 255, 0.2);
+    color: #2bf8ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+
+    &.sm {
+        width: 26px;
+        height: 26px;
+        font-size: 0.75rem;
+    }
+
+    &.acreedor-av {
+        background: rgba(52, 211, 153, 0.2);
+        color: #34d399;
+    }
+}
+
+.persona-nombre {
+    flex: 1;
+    font-size: 0.92rem;
+}
+
+.persona-balance {
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    &.positivo {
+        color: #34d399;
+    }
+
+    &.negativo {
+        color: #f87171;
+    }
+}
+
+.deudas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem 0.75rem;
+}
+
+.deuda-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    background: var(--app-surface-04);
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+.deuda-deudor,
+.deuda-acreedor {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex: 1;
+}
+
+.deuda-acreedor {
+    justify-content: flex-end;
+}
+
+.deuda-flecha {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    color: #fbbf24;
+
+    i {
+        font-size: 0.9rem;
+    }
+}
+
+.deuda-monto {
+    font-weight: 700;
+    color: #fbbf24;
+    font-size: 0.8rem;
+}
+
+.total-badge {
+    background: rgba(43, 248, 255, 0.15);
+    color: #2bf8ff;
+    border-radius: 999px;
+    padding: 0.1rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.gastos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.25rem 0.75rem 0.75rem;
+}
+
+.gasto-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--app-surface-05);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:active {
+        background: var(--app-surface-09);
+    }
+}
+
+.gasto-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.gasto-desc {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.gasto-detalle {
+    font-size: 0.74rem;
+    opacity: 0.55;
+}
+
+.gasto-monto {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #fbbf24;
+}
+
+.gasto-menu {
+    opacity: 0.4;
+    font-size: 0.85rem;
+}

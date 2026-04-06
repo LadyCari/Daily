@@ -1,0 +1,9 @@
+ion-footer {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+}
+
+#botonesNuevoPendiente {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}

@@ -1,0 +1,104 @@
+.campo-label {
+    font-size: 0.78rem;
+    opacity: 0.6;
+    padding: 1rem 1rem 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.participantes-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0 1rem 0.75rem;
+}
+
+.participante-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--app-border-20);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.activo {
+        border-color: #2bf8ff;
+        background: rgba(43, 248, 255, 0.12);
+        color: #2bf8ff;
+    }
+}
+
+/* ── Toggle división ── */
+.division-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem 0.75rem;
+}
+
+.division-label {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.toggle-chips {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.toggle-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    border: 1.5px solid var(--app-border-20);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.activo {
+        border-color: #2bf8ff;
+        background: rgba(43, 248, 255, 0.12);
+        color: #2bf8ff;
+    }
+}
+
+/* ── Montos individuales ── */
+.montos-individuales {
+    padding: 0 1rem 0.5rem;
+}
+
+.restante-row {
+    margin: 0.5rem 1rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    &.ok {
+        background: rgba(52, 211, 153, 0.12);
+        color: #34d399;
+    }
+
+    &:not(.ok) {
+        background: rgba(251, 191, 36, 0.12);
+        color: #fbbf24;
+    }
+}
+
+/* ── Footer ── */
+ion-footer {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+}
+
+.botonesNuevoPendiente {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}

@@ -1,0 +1,91 @@
+<ion-content [fullscreen]="true">
+  <div class="settings-container">
+
+    <div class="settings-top">
+      <span class="settings-title">Configuración</span>
+      <button class="btn-reset" (click)="resetColors()">
+        <i class="fa-solid fa-rotate-left"></i>
+        Restablecer
+      </button>
+    </div>
+
+    @for (section of sections; track section.id) {
+      <div class="accordion" [class.open]="activeSection === section.id">
+
+        <button class="accordion-header" (click)="toggle(section.id)">
+          <div class="accordion-left">
+            <i class="fa-solid {{ section.icon }} acc-icon"></i>
+            <span class="acc-label">{{ section.label }}</span>
+            @if (totalItems(section) > 0) {
+              <span class="acc-count">{{ totalItems(section) }}</span>
+            }
+          </div>
+          <div class="acc-right">
+            @if (totalItems(section) === 0) {
+              <span class="acc-empty">Sin colores</span>
+            } @else {
+              <div class="acc-swatches">
+                @for (item of allItems(section).slice(0, 4); track item.key) {
+                  <span class="acc-dot" [style.background]="colors[item.key]"></span>
+                }
+              </div>
+            }
+            <i class="fa-solid fa-chevron-down acc-arrow"></i>
+          </div>
+        </button>
+
+        <div class="accordion-body">
+          <div class="accordion-inner">
+
+            @if (totalItems(section) === 0) {
+              <p class="empty-msg">Sin colores configurables por ahora.</p>
+            }
+
+            @for (group of section.groups; track group.label) {
+
+              @if (group.label) {
+                <!-- Sub-acordeón -->
+                <div class="sub-accordion" [class.open]="isSubGroupOpen(section.id, group.label)">
+                  <button class="sub-accordion-header" (click)="toggleSubGroup(section.id, group.label)">
+                    <span class="sub-acc-label">{{ group.label }}</span>
+                    <div class="sub-acc-right">
+                      <div class="acc-swatches">
+                        @for (item of group.items.slice(0, 4); track item.key) {
+                          <span class="acc-dot" [style.background]="colors[item.key]"></span>
+                        }
+                      </div>
+                      <i class="fa-solid fa-chevron-down sub-acc-arrow"></i>
+                    </div>
+                  </button>
+                  <div class="sub-accordion-body">
+                    <div class="sub-accordion-inner">
+                      @for (item of group.items; track item.key) {
+                        <button class="color-row" (click)="openPicker(item)">
+                          <span class="color-name">{{ item.label }}</span>
+                          <span class="color-swatch" [style.background]="colors[item.key]"></span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                </div>
+
+              } @else {
+                <!-- Sin sub-título: items directos -->
+                @for (item of group.items; track item.key) {
+                  <button class="color-row" (click)="openPicker(item)">
+                    <span class="color-name">{{ item.label }}</span>
+                    <span class="color-swatch" [style.background]="colors[item.key]"></span>
+                  </button>
+                }
+              }
+
+            }
+
+          </div>
+        </div>
+
+      </div>
+    }
+
+  </div>
+</ion-content>

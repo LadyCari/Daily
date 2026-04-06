@@ -1,0 +1,35 @@
+ion-footer {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+}
+
+#botonesNuevoPendiente {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+/* Fila cantidad + precio */
+.cantidad-precio-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  width: 100%;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+.unidad-item {
+  margin: 0 !important;
+  align-self: flex-start;
+}
+
+.unidad-item ion-label {
+  padding-top: 6px !important;
+  margin-bottom: 0 !important;
+}
+
+.unidad-item ion-select, .unidad-item ion-input {
+  --padding-top: 5px !important;
+  --padding-bottom: 7px !important;
+  --padding-start: 14px !important;
+}

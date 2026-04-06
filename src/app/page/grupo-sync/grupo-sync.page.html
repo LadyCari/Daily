@@ -1,0 +1,141 @@
+<ion-content [fullscreen]="true">
+  <div class="sync-container">
+
+    <!-- Header custom -->
+    <div class="page-header">
+      <button class="btn-back" (click)="volver()">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <span class="page-title">{{ grupo?.name ?? 'Grupo' }}</span>
+      <button class="btn-invite" (click)="invitarPersona()">
+        <i class="fa-solid fa-user-plus"></i>
+      </button>
+    </div>
+
+    @if (loading) {
+      <div class="loading-state">
+        <ion-spinner name="crescent"></ion-spinner>
+      </div>
+    }
+
+    @if (!loading) {
+
+      <!-- Botón sincronizar -->
+      <button class="btn-sync" (click)="sincronizar()" [disabled]="syncing">
+        @if (syncing) {
+          <ion-spinner name="crescent" class="sync-spinner"></ion-spinner>
+          <span>Sincronizando...</span>
+        } @else {
+          <i class="fa-solid fa-rotate"></i>
+          <span>Sincronizar ahora</span>
+        }
+      </button>
+
+      @if (lastSync) {
+        <p class="last-sync">Último sync: {{ formatDate(lastSync) }}</p>
+      }
+
+      <!-- Sin otros miembros -->
+      @if (members.length === 0) {
+        <div class="empty-state">
+          <i class="fa-solid fa-user-plus"></i>
+          <p>Todavía no hay otros miembros.</p>
+          <small>Usá el botón <i class="fa-solid fa-user-plus"></i> para invitar a alguien.</small>
+        </div>
+      }
+
+      <!-- Tarjeta por miembro -->
+      @for (vm of members; track vm.member.uid) {
+        <div class="member-card">
+
+          <!-- Avatar + nombre -->
+          <div class="member-header">
+            @if (vm.member.photoUrl) {
+              <img class="member-avatar" [src]="vm.member.photoUrl" />
+            } @else {
+              <div class="member-avatar member-avatar--fallback">
+                <i class="fa-solid fa-user"></i>
+              </div>
+            }
+            <div class="member-info">
+              <strong>{{ vm.member.name }}</strong>
+              <small>{{ vm.member.email }}</small>
+              @if (vm.member.lastPushed) {
+                <small class="last-pushed">Sync: {{ formatDate(vm.member.lastPushed) }}</small>
+              }
+            </div>
+            <span class="member-role" [class.admin]="vm.member.role === 'admin'">
+              {{ vm.member.role === 'admin' ? 'admin' : 'miembro' }}
+            </span>
+          </div>
+
+          <!-- Título sección toggles -->
+          <div class="toggles-label">Recibir de {{ vm.member.name.split(' ')[0] }}:</div>
+
+          <!-- Toggles por sección -->
+          <div class="toggles-list">
+            @for (section of sections; track section) {
+              <div class="toggle-row" (click)="toggleSection(vm, section)">
+                <div class="toggle-icon-name">
+                  <i class="fa-solid {{ icons[section] }}"></i>
+                  <span>{{ labels[section] }}</span>
+                </div>
+                <div class="toggle-switch" [class.active]="vm.sub[section]">
+                  <div class="toggle-thumb"></div>
+                </div>
+              </div>
+            }
+          </div>
+
+          <!-- Datos recibidos -->
+          @if (activeSectionsWithData(vm).length > 0) {
+            <div class="received-header" (click)="toggleExpanded(vm)">
+              <i class="fa-solid fa-inbox"></i>
+              <span>Datos recibidos ({{ activeSectionsWithData(vm).length }} secciones)</span>
+              <i class="fa-solid {{ vm.expanded ? 'fa-chevron-up' : 'fa-chevron-down' }} received-chevron"></i>
+            </div>
+
+            @if (vm.expanded) {
+              <div class="received-body">
+                @for (section of activeSectionsWithData(vm); track section) {
+                  <div class="received-section">
+                    <div class="received-section-title">
+                      <i class="fa-solid {{ icons[section] }}"></i>
+                      {{ labels[section] }}
+                      <span class="received-count">{{ countReceived(vm, section) }}</span>
+                    </div>
+
+                    @if (true) {
+                      <div class="received-item-count">
+                        {{ countReceived(vm, section) }} {{ countReceived(vm, section) === 1 ? 'ítem' : 'ítems' }} recibidos
+                      </div>
+                    }
+                  </div>
+                }
+
+                @if (vm.received?.lastUpdated) {
+                  <p class="received-date">Actualizado: {{ formatDate(vm.received!.lastUpdated) }}</p>
+                }
+              </div>
+            }
+          }
+
+          @if (vm.sub.horario || vm.sub.eventos || vm.sub.todos || vm.sub.gastos) {
+            @if (activeSectionsWithData(vm).length === 0) {
+              <p class="no-data-hint">Sincronizá para recibir los datos</p>
+            }
+          }
+
+        </div>
+      }
+
+      <!-- Botón salir del grupo -->
+      <button class="btn-leave" (click)="confirmarSalir()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Salir del grupo
+      </button>
+
+    }
+
+  </div>
+</ion-content>

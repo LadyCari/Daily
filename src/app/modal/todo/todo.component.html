@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title id="tituloPendiente">
+      <i class="fa-regular fa-note-sticky modal-accent-icon"></i>
+      Nuevo pendiente
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!title || !title.trim())">
+    <input class="floating-input" id="inputTitulo" type="text" [(ngModel)]="title" placeholder=" " />
+    <label class="floating-label" for="inputTitulo">Título</label>
+  </div>
+
+  <div class="privacy-toggle" (click)="isPrivate = !isPrivate">
+    <i class="fa-solid" [class.fa-lock]="isPrivate" [class.fa-lock-open]="!isPrivate" [class.privacy-on]="isPrivate"></i>
+    <span [class.privacy-on]="isPrivate">{{ isPrivate ? 'Privado (solo vos lo ves)' : 'Compartido con tu pareja' }}</span>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="botonesPendiente">
+      <ion-button fill="outline" color="neon" (click)="cancel()" id="botonCancelar" style="--border-width: 1px;">Cancelar</ion-button>
+      <ion-button color="neon" (click)="save()" id="botonGuardar">Guardar</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,291 @@
+/* ═══════════════════════════════════════════════
+   TIENDAS PAGE — estética tipo gestión de gastos
+   ═══════════════════════════════════════════════ */
+
+/* ── Fondo configurable desde settings ── */
+ion-content {
+  --background: var(--app-color-bg-compras, #07070a);
+}
+
+:host {
+  --tienda-accent-fallback: var(--compras-accent, #2bf8ff);
+  --tienda-icon-fallback: var(--compras-icon-color, #2bf8ff);
+}
+
+.tiendas-container {
+
+  padding: 0.75rem 0.5rem 5rem;
+}
+
+/* ── Header con botones de acción ── */
+.tiendas-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0.25rem 0.75rem;
+}
+
+.tiendas-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-accion {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  /* ── Nueva tienda (botón primario) ── */
+  background: var(--tienda-btn-nueva-bg, rgba(43,248,255,0.15));
+  border: 1px solid var(--tienda-btn-nueva-border, rgba(43,248,255,0.40));
+  color: var(--tienda-btn-nueva, #2bf8ff);
+
+  &:active {
+    background: color-mix(in srgb, var(--tienda-btn-nueva, #2bf8ff) 28%, transparent);
+  }
+
+  /* ── Importar (botón secundario) ── */
+  &--sec {
+    background: var(--tienda-btn-importar-bg, rgba(255,255,255,0.08));
+    border-color: var(--tienda-btn-importar-border, rgba(255,255,255,0.20));
+    color: var(--tienda-btn-importar, #ffffff);
+
+    &:active {
+      background: color-mix(in srgb, var(--tienda-btn-importar, #ffffff) 16%, transparent);
+    }
+  }
+}
+
+/* ── Lista de cards ── */
+.tiendas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+/* ── Card individual ── */
+.tienda-card {
+  --tienda-accent: var(--tienda-accent, var(--tienda-accent-fallback));
+
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background:
+    linear-gradient(145deg,
+      color-mix(in srgb, var(--tienda-accent) 7%, transparent) 0%,
+      color-mix(in srgb, var(--tienda-accent) 2%, transparent) 100%),
+    var(--app-bg-card, #0f1113);
+
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  border: 1px solid color-mix(in srgb, var(--tienda-accent) 18%, transparent);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 color-mix(in srgb, var(--tienda-accent) 8%, transparent);
+
+  position: relative;
+
+  &:active {
+    box-shadow: 0 2px 24px color-mix(in srgb, var(--tienda-accent) 12%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--tienda-accent) 12%, transparent);
+  }
+
+  /* Preview mientras se arrastra */
+  &.cdk-drag-preview {
+    box-shadow: 0 0 24px color-mix(in srgb, var(--tienda-accent) 35%, transparent);
+    border-color: color-mix(in srgb, var(--tienda-accent) 50%, transparent);
+    border-radius: 16px;
+    opacity: 0.95;
+  }
+
+  &.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* ── Ícono con fondo coloreado por categoría ── */
+.tienda-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+
+  // Categorías
+  &.cat-supermercado {
+    background: color-mix(in srgb, var(--tienda-accent) 15%, transparent);
+    color: var(--tienda-card-icon-color, var(--tienda-icon-fallback));
+  }
+
+  &.cat-ferreteria {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+  }
+
+  &.cat-farmacia {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+  }
+
+  &.cat-ropa {
+    background: rgba(167, 139, 250, 0.15);
+    color: #a78bfa;
+  }
+
+  &.cat-electronica {
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+  }
+
+  &.cat-otros {
+    background: rgba(156, 163, 175, 0.15);
+    color: #9ca3af;
+  }
+
+  // fallback
+  &[class*="cat-"] {
+    background: color-mix(in srgb, var(--tienda-accent) 12%, transparent);
+    color: var(--tienda-card-icon-color, var(--tienda-icon-fallback));
+  }
+}
+
+/* ── Texto info ── */
+.tienda-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.tienda-nombre {
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--tienda-card-text-color, inherit);
+}
+
+.tienda-meta {
+  font-size: 0.74rem;
+  opacity: 0.5;
+  color: var(--tienda-card-text-color, inherit);
+}
+
+/* ── Acciones derecha ── */
+.tienda-card-right {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.tienda-drag-handle {
+  color: var(--tienda-card-icon-color, color-mix(in srgb, var(--tienda-accent, var(--tienda-accent-fallback)) 50%, transparent));
+
+  font-size: 0.85rem;
+  cursor: grab;
+  touch-action: none;
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+
+  &:active {
+    cursor: grabbing;
+    color: var(--tienda-accent, var(--tienda-accent-fallback));
+    background: color-mix(in srgb, var(--tienda-accent, var(--tienda-accent-fallback)) 10%, transparent);
+  }
+}
+
+.btn-menu-tienda {
+  background: transparent;
+  border: none;
+  color: var(--tienda-card-icon-color, inherit);
+  opacity: 0.45;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  transition: opacity 0.15s, background 0.15s;
+
+  &:active {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* ── Placeholder durante drag ── */
+.tienda-placeholder {
+
+  width: 100%;
+  height: 66px;
+  border: 1.5px dashed color-mix(in srgb, var(--compras-accent, #2bf8ff) 25%, transparent);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--compras-accent, #2bf8ff) 3%, transparent);
+}
+
+/* ── Empty state ── */
+.tiendas-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 1rem 2rem;
+  opacity: 0.45;
+  gap: 0.6rem;
+  text-align: center;
+
+  i {
+    font-size: 3rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .tiendas-empty-hint {
+    font-size: 0.78rem;
+    opacity: 0.7;
+  }
+}
+
+/* ── Tiendas recibidas ── */
+.tiendas-recibidas-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.45;
+  margin: 0.75rem 0.25rem 0.25rem;
+
+  i { font-size: 0.7rem; }
+}
+
+.tienda-card--shared {
+  opacity: 0.75;
+  border-style: dashed !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+.tienda-meta--shared {
+  color: rgba(255, 200, 43, 0.7) !important;
+  font-size: 0.7rem;
+
+  i { font-size: 0.65rem; }
+}

@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{ fecha }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="cerrar()">
+                <i class="fa-solid fa-xmark"></i>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+    <!-- Sin eventos -->
+    <div class="vacio" *ngIf="eventos.length === 0">
+        <i class="fa-regular fa-calendar-xmark"></i>
+        <p>No hay eventos para este día</p>
+    </div>
+
+    <!-- Lista de eventos -->
+    <div class="evento-card" *ngFor="let ev of eventos">
+        <div class="evento-left">
+            <span class="evento-icono" [style.color]="getColor(ev.tipo)">
+                <i class="fa-solid" [class]="getIcono(ev.tipo)"></i>
+            </span>
+            <div class="evento-info">
+                <span class="evento-titulo">{{ ev.titulo }}</span>
+                <span class="evento-meta">{{ getLabel(ev.tipo) }} · {{ ev.hora }}</span>
+                <span class="evento-desc" *ngIf="ev.descripcion">{{ ev.descripcion }}</span>
+            </div>
+        </div>
+        <div class="evento-acciones">
+            <button class="btn-accion edit" (click)="editar(ev)">
+                <i class="fa-solid fa-pen"></i>
+            </button>
+            <button class="btn-accion del" (click)="eliminar(ev)">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <div class="footer-row">
+            <ion-button expand="block" fill="outline" (click)="agregar()">
+                <i class="fa-solid fa-plus" slot="start"></i>
+                Agregar evento en este día
+            </ion-button>
+        </div>
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,289 @@
+<ion-header>
+  <ion-toolbar>
+
+    <!-- Izquierda: logo + nombre de sección -->
+    <ion-buttons slot="start">
+      <div class="header-left">
+        <img class="app-logo" src="assets/icons/icon-48.webp" alt="logo" />
+        <span class="section-name">{{ titleText }}</span>
+      </div>
+    </ion-buttons>
+
+    <!-- Derecha: campana + paleta + perfil -->
+    <ion-buttons slot="end">
+
+      <ion-button (click)="openNotifs()" class="icon-btn" fill="clear">
+        <span class="bell-wrap">
+          <i class="fa-solid fa-bell"></i>
+          @if (notifSvc.unreadCount() > 0) {
+            <span class="notif-badge">{{ notifSvc.unreadCount() }}</span>
+          }
+        </span>
+      </ion-button>
+
+      @if (showSettings) {
+        <ion-button (click)="openSettings()" class="icon-btn" fill="clear">
+          <i class="fa-solid fa-palette"></i>
+        </ion-button>
+      }
+
+      <ion-button (click)="goToProfile()" class="icon-btn profile-btn" fill="clear">
+        @if (profileImage()) {
+          <img class="profile-avatar" [src]="profileImage()" alt="perfil" />
+        } @else {
+          <i class="fa-solid fa-user"></i>
+        }
+      </ion-button>
+
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<!-- ══════════════════════════════════════════
+     MODAL DE NOTIFICACIONES
+     ══════════════════════════════════════════ -->
+<ion-modal [isOpen]="notifsOpen" (didDismiss)="notifsOpen = false"
+           [initialBreakpoint]="0.6" [breakpoints]="[0, 0.6, 1]"
+           class="notifs-modal">
+  <ng-template>
+    <ion-header class="notifs-ion-header">
+      <ion-toolbar class="notifs-ion-toolbar">
+        <ion-title>Notificaciones</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="notifsOpen = false">
+            <i class="fa-solid fa-xmark"></i>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="notifs-ion-content">
+
+      @if (notifSvc.all().length === 0) {
+        <div class="notifs-empty">
+          <i class="fa-regular fa-bell-slash"></i>
+          <span>Sin notificaciones</span>
+        </div>
+      }
+
+      <ion-list class="notifs-list" lines="none">
+        @for (n of notifSvc.all(); track n.id) {
+
+          @if (n.type === 'group_invite') {
+            @for (inv of notifSvc.pendingInvitations(); track inv.id) {
+              @if ('inv_' + inv.id === n.id) {
+                <div class="notif-item notif-invite">
+                  <div class="notif-icon-wrap invite">
+                    <i class="fa-solid fa-users"></i>
+                  </div>
+                  <div class="notif-content">
+                    <p class="notif-title">{{ n.title }}</p>
+                    <p class="notif-body">{{ n.body }}</p>
+                    <div class="notif-actions">
+                      <button class="btn-accept" (click)="acceptInvite(inv); notifsOpen = false">Aceptar</button>
+                      <button class="btn-reject" (click)="rejectInvite(inv)">Rechazar</button>
+                    </div>
+                  </div>
+                  <span class="notif-time">{{ formatTime(n.createdAt) }}</span>
+                </div>
+              }
+            }
+          }
+
+          @if (n.type !== 'group_invite') {
+            <div class="notif-item" [class.unread]="!n.read"
+                 (click)="notifSvc.markRead(n.id)">
+              <div class="notif-icon-wrap" [class.sync]="n.type === 'partner_sync'"
+                   [class.calendar]="n.type === 'calendar_reminder'">
+                <i class="fa-solid" [ngClass]="notifIcon(n.type)"></i>
+              </div>
+              <div class="notif-content">
+                <p class="notif-title">{{ n.title }}</p>
+                <p class="notif-body">{{ n.body }}</p>
+              </div>
+              <span class="notif-time">{{ formatTime(n.createdAt) }}</span>
+            </div>
+          }
+
+        }
+      </ion-list>
+
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- ══════════════════════════════════════════
+     MODAL DE CONFIGURACIÓN DE COLORES
+     ══════════════════════════════════════════ -->
+<ion-modal [isOpen]="settingsOpen" (didDismiss)="settingsOpen = false" [initialBreakpoint]="0.75"
+  [breakpoints]="[0, 0.75, 1]" class="settings-modal">
+
+  <ng-template>
+    <ion-header class="settings-ion-header">
+      <ion-toolbar class="settings-ion-toolbar">
+        <ion-title>Configuración</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="settingsOpen = false">
+            <i class="fa-solid fa-xmark"></i>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="settings-ion-content">
+      <ion-segment [(ngModel)]="settingsTab" class="settings-segment">
+        <ion-segment-button value="home">
+          <ion-label>Home</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="extra">
+          <ion-label>Extras</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="compras">
+          <ion-label>Compras</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <ion-list class="settings-list" lines="full">
+        <ion-list-header>
+          <ion-label>Fondo de página</ion-label>
+        </ion-list-header>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Fondo Home</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.bgHome"
+            (input)="onColorChange('bgHome', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'extra'">
+          <ion-label>Fondo Extras</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.bgExtra"
+            (input)="onColorChange('bgExtra', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'compras'">
+          <ion-label>Fondo Compras</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.bgCompras"
+            (input)="onColorChange('bgCompras', $any($event.target).value)">
+        </ion-item>
+
+        <ion-list-header>
+          <ion-label>General</ion-label>
+        </ion-list-header>
+
+        <ion-item>
+          <ion-label>Color de texto</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.text"
+            (input)="onColorChange('text', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Header</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.header"
+            (input)="onColorChange('header', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Tabs / Footer</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.footer"
+            (input)="onColorChange('footer', $any($event.target).value)">
+        </ion-item>
+
+        <ion-list-header *ngIf="settingsTab === 'home'">
+          <ion-label>Home</ion-label>
+        </ion-list-header>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Íconos Home</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.homeIconColor"
+            (input)="onColorChange('homeIconColor', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Día seleccionado</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.homeCalSelected"
+            (input)="onColorChange('homeCalSelected', $any($event.target).value)">
+        </ion-item>
+
+        <ion-list-header *ngIf="settingsTab === 'home'">
+          <ion-label>Bordes y fondo de cards</ion-label>
+        </ion-list-header>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Post-it color 1</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.postit1Accent"
+            (input)="onColorChange('postit1Accent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Post-it color 2</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.postit2Accent"
+            (input)="onColorChange('postit2Accent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Post-it color 3</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.postit3Accent"
+            (input)="onColorChange('postit3Accent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Post-it color 4</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.postit4Accent"
+            (input)="onColorChange('postit4Accent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Recordatorio</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.recordatorioAccent"
+            (input)="onColorChange('recordatorioAccent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Horario semanal</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.horarioAccent"
+            (input)="onColorChange('horarioAccent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Fondo días (horario)</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.horarioDaysBg"
+            (input)="onColorChange('horarioDaysBg', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Día seleccionado (horario)</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.horarioDaySelected"
+            (input)="onColorChange('horarioDaySelected', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'home'">
+          <ion-label>Calendario</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.calendarioAccent"
+            (input)="onColorChange('calendarioAccent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item button detail="false" class="reset-item" (click)="resetColors()">
+          <ion-label>Restaurar defaults</ion-label>
+          <i slot="end" class="fa-solid fa-rotate-left"></i>
+        </ion-item>
+
+        <ion-list-header *ngIf="settingsTab === 'compras'">
+          <ion-label>Compras</ion-label>
+        </ion-list-header>
+
+        <ion-item *ngIf="settingsTab === 'compras'">
+          <ion-label>Acento Compras</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.comprasAccent"
+            (input)="onColorChange('comprasAccent', $any($event.target).value)">
+        </ion-item>
+
+        <ion-item *ngIf="settingsTab === 'compras'">
+          <ion-label>Íconos Compras</ion-label>
+          <input slot="end" type="color" class="color-input" [value]="colors.comprasIconColor"
+            (input)="onColorChange('comprasIconColor', $any($event.target).value)">
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

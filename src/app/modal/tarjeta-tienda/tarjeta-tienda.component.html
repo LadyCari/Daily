@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Tienda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Nombre de la tienda — floating label -->
+  <div class="floating-input-wrapper" [class.invalid-field]="submitAttempted && (!name || !name.trim())">
+    <input class="floating-input" id="inputNombreTienda" type="text" [(ngModel)]="name" placeholder=" " />
+    <label class="floating-label" for="inputNombreTienda">Nombre de la tienda</label>
+  </div>
+
+  <!-- Categoría — ion-item con label neon + cssClass neon -->
+  <ion-item>
+    <ion-label position="stacked" class="select-label-grande">Categoría de la tarjeta</ion-label>
+    <ion-select [(ngModel)]="categoriaSeleccionada" cssClass="neon-select-alert">
+      <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
+        {{ getCategoriaLabel(categoria) }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Color de acento</ion-label>
+    <input slot="end" type="color" class="color-input" [value]="accentColor || '#2bf8ff'"
+      (input)="accentColor = $any($event.target).value">
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Color de íconos</ion-label>
+    <input slot="end" type="color" class="color-input" [value]="iconColor || '#2bf8ff'"
+      (input)="iconColor = $any($event.target).value">
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Color de texto</ion-label>
+    <input slot="end" type="color" class="color-input" [value]="textColor || '#ffffff'"
+      (input)="textColor = $any($event.target).value">
+  </ion-item>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div id="botonesNuevoPendiente">
+      <ion-button fill="outline" color="neon" (click)="cancel()" id="botonCancelar" style="--border-width: 1px;">Cancelar</ion-button>
+      <ion-button color="neon" (click)="save()" id="botonGuardar">Guardar</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

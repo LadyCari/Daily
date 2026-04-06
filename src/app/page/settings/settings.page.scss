@@ -1,0 +1,255 @@
+ion-content {
+  --background: var(--app-color-bg-extra, #07070a);
+  --padding-top: var(--ion-safe-area-top, 0px);
+}
+
+.settings-container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+// ── Top bar ──────────────────────────────────────────
+.settings-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.settings-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.btn-reset {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 100, 100, 0.08);
+  border: 1px solid rgba(255, 100, 100, 0.25);
+  border-radius: 10px;
+  color: #ff6464;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+
+  &:active { background: rgba(255, 100, 100, 0.18); }
+}
+
+// ── Accordion ────────────────────────────────────────
+.accordion {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+
+  &.open {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  gap: 0.75rem;
+
+  &:active { opacity: 0.7; }
+}
+
+.accordion-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.acc-icon {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  width: 18px;
+  text-align: center;
+}
+
+.acc-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.acc-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 0.1rem 0.45rem;
+  opacity: 0.5;
+}
+
+.acc-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-left: auto;
+}
+
+.acc-swatches {
+  display: flex;
+  gap: 4px;
+}
+
+.acc-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.acc-empty {
+  font-size: 0.72rem;
+  opacity: 0.3;
+}
+
+.acc-arrow {
+  font-size: 0.75rem;
+  opacity: 0.45;
+  transition: transform 0.25s ease;
+
+  .open & {
+    transform: rotate(180deg);
+  }
+}
+
+// ── Accordion body (grid trick para animación suave) ──
+.accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+
+  .open & {
+    grid-template-rows: 1fr;
+  }
+}
+
+.accordion-inner {
+  overflow: hidden;
+  border-top: 0px solid rgba(255, 255, 255, 0.07);
+  transition: border-top-width 0s 0.28s;
+
+  .open & {
+    border-top-width: 1px;
+    transition: border-top-width 0s;
+  }
+}
+
+// ── Sub-acordeón ─────────────────────────────────────
+.sub-accordion {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+
+  &:first-child { border-top: none; }
+
+  &.open {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.sub-accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:active { opacity: 0.65; }
+}
+
+.sub-acc-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.sub-acc-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.sub-acc-arrow {
+  font-size: 0.68rem;
+  opacity: 0.35;
+  transition: transform 0.25s ease;
+
+  .sub-accordion.open & {
+    transform: rotate(180deg);
+  }
+}
+
+.sub-accordion-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+
+  .sub-accordion.open & {
+    grid-template-rows: 1fr;
+  }
+}
+
+.sub-accordion-inner {
+  overflow: hidden;
+}
+
+// ── Color rows ───────────────────────────────────────
+.empty-msg {
+  font-size: 0.8rem;
+  opacity: 0.35;
+  text-align: center;
+  padding: 1rem;
+  margin: 0;
+}
+
+.color-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  width: 100%;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+
+  &:first-of-type { border-top: none; }
+  &:active { opacity: 0.6; }
+}
+
+.color-name {
+  font-size: 0.88rem;
+  opacity: 0.85;
+  color: var(--app-color-text, rgba(255, 255, 255, 0.88));
+}
+
+.color-swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}

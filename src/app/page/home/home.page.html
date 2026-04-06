@@ -1,0 +1,166 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true" color="dark">
+
+  <!-- Sección Recordatorio -->
+  <div class="home-card card-recordatorio">
+    <div class="card-header">
+      <span><i class="fa-solid fa-note-sticky"></i> Recordatorio</span>
+      <i class="fa-solid fa-plus accion-icon" (click)="openAddToDoModal()"></i>
+    </div>
+    <div class="home-card-content">
+
+      <div *ngIf="todos.length === 0" class="empty-state">
+        <i class="fa-regular fa-note-sticky"></i>
+        <p>Sin recordatorios</p>
+      </div>
+
+      <div cdkDropList (cdkDropListDropped)="onDrop($event)" class="postit-grid" id="contenedorToDo">
+        <div *ngFor="let todo of todos" cdkDrag class="postit-card" [class.postit-done]="todo.completed"
+          [class.postit-color-1]="(todo.colorSlot ?? 1) === 1" [class.postit-color-2]="todo.colorSlot === 2"
+          [class.postit-color-3]="todo.colorSlot === 3" [class.postit-color-4]="todo.colorSlot === 4">
+
+          <!-- Cabecera: 3 dots centrados (drag) + trash arriba derecha -->
+          <div class="postit-top">
+            <span class="drag-dots" cdkDragHandle>
+              <i class="fa-solid fa-ellipsis"></i>
+            </span>
+            <span class="postit-pin" (click)="deleteTodo(todo.id)">
+              <i class="fa-solid fa-thumbtack"></i>
+            </span>
+          </div>
+
+          <!-- Texto del recordatorio — click aquí para completar -->
+          <div class="postit-body" (click)="toggleTodo(todo.id)">
+            <span class="postit-text" [class.postit-text--done]="todo.completed">
+              {{ todo.title }}
+              <i *ngIf="todo.private" class="fa-solid fa-lock item-private-icon"></i>
+            </span>
+            <i *ngIf="todo.completed" class="fa-solid fa-circle-check postit-check"></i>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Todos recibidos de la pareja -->
+    @for (grupo of todosRecibidos; track grupo.senderName) {
+      <div class="recibidos-label">
+        <i class="fa-solid fa-users"></i> De {{ grupo.senderName }}
+      </div>
+      <div class="postit-grid">
+        @for (todo of grupo.items; track todo.id) {
+          <div class="postit-card postit-card--recibido"
+            [class.postit-done]="todo.completed"
+            [class.postit-color-1]="(todo.colorSlot ?? 1) === 1"
+            [class.postit-color-2]="todo.colorSlot === 2"
+            [class.postit-color-3]="todo.colorSlot === 3"
+            [class.postit-color-4]="todo.colorSlot === 4">
+            <div class="postit-body">
+              <span class="postit-text" [class.postit-text--done]="todo.completed">{{ todo.title }}</span>
+              @if (todo.completed) { <i class="fa-solid fa-circle-check postit-check"></i> }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Sección Horario Semanal -->
+  <div class="home-card card-horario">
+    <div class="card-header">
+      <span><i class="fa-solid fa-clock"></i> Horario Semanal</span>
+      <i class="fa-solid fa-plus accion-icon" (click)="openAddHorarioModal()"></i>
+    </div>
+
+    <ion-segment [(ngModel)]="diaActivo" scrollable="true">
+      <ion-segment-button *ngFor="let dia of dias" [value]="dia.index" class="diaHorarioSemanal">
+        <ion-label>{{ dia.label }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <div class="home-card-content">
+      <div *ngIf="getHorariosDelDia().length === 0 && getEventosDelDia().length === 0" class="empty-state">
+        <i class="fa-regular fa-calendar-xmark"></i>
+        <span>Sin actividades</span>
+      </div>
+
+      <div class="horario-lista horario-lista--padded">
+        <div class="horario-item" *ngFor="let h of getHorariosDelDia()">
+          <span class="horario-hora">{{ h.startHour }}<span *ngIf="h.endHour"> - {{ h.endHour }}</span></span>
+          <span class="horario-titulo">
+            {{ h.title }}
+            <i *ngIf="h.private" class="fa-solid fa-lock item-private-icon"></i>
+          </span>
+          <button class="horario-del" (click)="deleteHorario(h.id); $event.stopPropagation()">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+
+        <div class="horario-item horario-evento" *ngFor="let ev of getEventosDelDia()">
+          <span class="horario-hora">{{ ev.hora }}</span>
+          <i class="fa-solid evento-icon-sm" [class]="getEventoIcono(ev.tipo)"
+            [style.color]="getEventoColor(ev.tipo)"></i>
+          <span class="horario-titulo">{{ ev.titulo }}</span>
+        </div>
+
+        <!-- Horarios recibidos de la pareja (sin botón borrar) -->
+        <ng-container *ngIf="getHorariosRecibidosDelDia().length > 0">
+          <div class="horario-separator-recibido">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="horario-item horario-item--recibido" *ngFor="let h of getHorariosRecibidosDelDia()">
+            <span class="horario-hora">{{ h.startHour }}<span *ngIf="h.endHour"> - {{ h.endHour }}</span></span>
+            <span class="horario-titulo">{{ h.title }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección Calendario -->
+  <div class="home-card card-calendario">
+    <div class="card-header">
+      <span><i class="fa-solid fa-calendar-days"></i> Calendario</span>
+      <i class="fa-solid fa-plus accion-icon" (click)="openAddEventoModal()"></i>
+    </div>
+
+    <div class="home-card-content cal-content">
+
+      <!-- Navegación de mes -->
+      <div class="cal-nav">
+        <button class="cal-nav-btn" (click)="prevMes()">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <span class="cal-mes-label">{{ mesLabel }}</span>
+        <button class="cal-nav-btn" (click)="nextMes()">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Cabecera días -->
+      <div class="cal-grid">
+        <div class="cal-header-cell" *ngFor="let d of DIAS_HEADER">{{ d }}</div>
+
+        <!-- Días del mes — click en la CELDA completa -->
+        <div *ngFor="let day of calendarDays" class="cal-day" [class.cal-day--empty]="!day.date"
+          [class.cal-day--hoy]="isToday(day)" [class.cal-day--con-eventos]="day.eventos.length > 0"
+          (click)="openDiaModal(day)">
+
+          <span class="cal-day-num" *ngIf="day.date">{{ day.numero }}</span>
+
+          <!-- Íconos de eventos (solo visuales, el click lo maneja la celda) -->
+          <div class="cal-eventos" *ngIf="day.eventos.length">
+            <span *ngFor="let ev of day.eventos" class="cal-evento-chip" [style.color]="getEventoColor(ev.tipo)">
+              <i class="fa-solid" [class]="getEventoIcono(ev.tipo)"></i>
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</ion-content>

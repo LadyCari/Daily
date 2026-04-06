@@ -1,0 +1,98 @@
+ion-footer {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
+}
+
+#botodonesNuevoHorario {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+/* ── Inputs de tiempo (Hora inicio / Hora fin) ── */
+.time-input-wrapper {
+  margin: 10px 0;
+  border: 1.5px solid rgba(43, 248, 255, 0.4);
+  border-radius: 12px;
+  padding: 10px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus-within {
+    border-color: #2bf8ff;
+    box-shadow: 0 0 16px rgba(43, 248, 255, 0.2);
+  }
+}
+
+.time-label {
+  font-size: 0.75rem;
+  color: rgba(43, 248, 255, 0.7);
+  letter-spacing: 0.03em;
+}
+
+.time-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ion-text-color);
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  width: 100%;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+
+  /* Ícono del reloj nativo: centrar y colorear neon */
+  &::-webkit-calendar-picker-indicator {
+    opacity: 0.65;
+    cursor: pointer;
+    padding: 4px;
+    margin-top: 0;
+    align-self: center;
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(160deg);
+  }
+}
+
+/* ── Selector de días múltiples ── */
+.dias-label {
+  font-size: 0.75rem;
+  color: rgba(43, 248, 255, 0.7);
+  padding: 12px 2px 8px;
+  letter-spacing: 0.03em  
+}
+
+.dias-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+
+.dia-chip {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1.5px solid rgba(43, 248, 255, 0.35);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--ion-text-color);
+  user-select: none;
+
+  &.activo {
+    border-color: #2bf8ff;
+    background: rgba(43, 248, 255, 0.15);
+    color: #2bf8ff;
+    box-shadow: 0 0 10px rgba(43, 248, 255, 0.25);
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
