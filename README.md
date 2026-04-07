@@ -23,10 +23,10 @@
 En la carpeta Screenshots hay imagenes de la app, dejo algunas generales.
 
 
-![Home](/src/assets/screenshots/Home.jpeg)
-![Tiendas](/src/assets/screenshots/vista-dentro-de-las-tienda.jpeg)
-![Extra-Gastos](/src/assets/screenshots/vista-general-del-gasto-en-aplicacion.jpeg)
-![Extra-Formularios](/src/assets/screenshots/campos-del-form.jpeg)
+<img src="src/assets/screenshots/Home.jpeg" width="220" alt="Home">
+<img src="src/assets/screenshots/vista-dentro-de-las-tienda.jpeg" width="220" alt="Tiendas">
+<img src="src/assets/screenshots/vista-general-del-gasto-en-aplicacion.jpeg" width="220" alt="Extra-Gastos">
+<img src="src/assets/screenshots/campos-del-form.jpeg" width="220" alt="Extra-Formularios">
 
 
 ---
